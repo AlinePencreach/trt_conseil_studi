@@ -79,7 +79,7 @@ class ConsultantController extends AbstractController
         ]);
     }
 
-
+// pour add commti
     #[Route('/consultant/edition/{id}', name: 'consultant_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Consultant $consultant, EntityManagerInterface $manager): Response
     {
