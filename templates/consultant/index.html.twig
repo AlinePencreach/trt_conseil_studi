@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ConsultantController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="example-wrapper">
+		<div class="jumbotron">
+			<h1 class="display-4">Hello
+				{{ controller_name }}! </h1>
+			<p class="lead">Ici vous controllez les consultants avec la méthode CRUD<br>
+				Page accessible uniquement par les ADMINS</p>
+			<p class="lead">La page accessible par les consultant est :
+				<strong>dashboard_consultant</strong>
+			</p>
+
+            {# {% if not consultants.items is same as ([]) %} #}
+
+			<hr class="my-4">
+			<h2 class="mb-4">Ici la liste des consultants : 
+				<a href="{{ path('app_new_consultant') }}">
+                	<div class="btn btn-lg btn-primary">Ajouter</div>
+                </a></h2>
+
+			{# read and display just one flash message type #}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">Id</th>
+							<th scope="col">Nom</th>
+							<th scope="col">Email</th>
+							<th scope="col">Actions</th>
+
+						</tr>
+					</thead>
+					<tbody>
+					{% for consultant in consultants %}
+					<tr>
+							<td>{{ consultant.id }}</td>
+							<td>{{ consultant.name }}</td>
+							<td>{{ consultant.email }}</td>
+							<td> <a href="/consultant/edition/{id}"><div class="btn btn-secondary ">Modifier</div></a>
+							<a href=""><div class="btn btn-danger">Supprimer</div></a></td>
+						
+					</tr>
+				
+				{% endfor %}
+
+					</tbody>
+				</table>
+            {# display navigation #}
+                <div class="navigation d-flex justify-content-end">
+                    {{ knp_pagination_render(consultants) }}
+                </div>
+			</div>
+	</div>
+{% endblock %}
