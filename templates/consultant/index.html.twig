@@ -59,8 +59,9 @@
 							<td>{{ consultant.id }}</td>
 							<td>{{ consultant.name }}</td>
 							<td>{{ consultant.email }}</td>
-							<td> <a href="/consultant/edition/{id}"><div class="btn btn-secondary ">Modifier</div></a>
-							<a href=""><div class="btn btn-danger">Supprimer</div></a></td>
+							<td> <a href="{{ path('consultant_edit', {id: consultant.id}) }}"><div class="btn btn-secondary ">Modifier</div></a>
+							<a href="{{ path('consultant_delete', {id: consultant.id}) }}"><div class="btn btn-danger">Supprimer</div></a></td>
+							
 						
 					</tr>
 				

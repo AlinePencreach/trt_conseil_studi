@@ -7,8 +7,6 @@ use App\Repository\ConsultantRepository;
 use App\Form\ConsultantType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +17,8 @@ class ConsultantController extends AbstractController
 {
     /**
      * This controller display all consultants
+     * 
+     * READ
      *
      * @param ConsultantRepository $repository
      * @param PaginatorInterface $paginator
@@ -43,6 +43,8 @@ class ConsultantController extends AbstractController
 
     /**
      * this controller display form consultant to add a new consultant
+     * 
+     * CREATE
      *
      * @return Response
      */
@@ -79,7 +81,11 @@ class ConsultantController extends AbstractController
         ]);
     }
 
-// pour add commti
+    /**
+     * this controller update consultants by id
+     *
+     * UPDATE
+     */
     #[Route('/consultant/edition/{id}', name: 'consultant_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Consultant $consultant, EntityManagerInterface $manager): Response
     {
@@ -98,7 +104,7 @@ class ConsultantController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Le consultant a bien été modiifé.'
+                'Le consultant a bien été modifé.'
             );
 
             return $this->redirectToRoute('app_consultant');
@@ -108,4 +114,28 @@ class ConsultantController extends AbstractController
             'form' => $form,
         ]);
     }
+
+
+    /**
+     * 
+     * this controller delete consultant
+     * ne pas oublier de mettre la route en path sur les boutons en vue 
+     * href="{{ path('consultant_remove', {id: consultant.id}) }}"
+     * 
+     * DELETE
+     */
+    #[Route('/consultant/suppression/{id}', name: 'consultant_delete')]
+    public function delete(EntityManagerInterface $manager, Consultant $consultant) : Response 
+    {
+        $manager->remove($consultant);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            'Le consultant a bien été supprimé.'
+        );
+
+
+        return $this->redirectToRoute('app_consultant');
+    } 
 }
