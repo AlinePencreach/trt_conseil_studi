@@ -35,7 +35,7 @@ class ConsultantController extends AbstractController
         );
 
         return $this->render('consultant/index.html.twig', [
-            'controller_name' => 'ConsultantController',
+            'controller_name' => 'Page Consultant',
             'consultants' => $consultants,
         ]);
     }

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ConsultantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,10 +24,16 @@ class Consultant
 
     #[ORM\Column(type: 'string', length: 255)]
     private $email;
-    
+
 
     #[ORM\Column(type: 'string', length: 255)]
     private $password;
+
+
+    public function __construct()
+    {
+        $this->annonces = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,5 +75,4 @@ class Consultant
 
         return $this;
     }
-
 }
