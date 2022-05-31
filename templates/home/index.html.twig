@@ -22,8 +22,17 @@
 			<h1 class="display-4">Bienvenue sur TRT Conseil</h1>
 			<p class="lead">La plateforme de travail du monde de la restauration. Que vous cherchiez un emploi ou un salarié vous êtes au bon endroit !</p>
 			<hr class="my-4">
-			<p>Inscrivez vous dès maintenant pour accéder aux fonctionnalités.</p>
-			<a class="btn btn-primary btn-lg" href="/submit" role="button">Inscription</a>
+			<p>Inscrivez vous dès maintenant ou connectez vous pour accéder aux fonctionnalités.</p>
+			<a class="btn btn-primary btn-lg" href="{{ path('app_security_registration') }}" role="button">Inscription</a>
+			<a class="ms-4 text-decoration-none" href="{{ path('app_security_login') }}">
+				Connexion</a>
 		</div>
+
+		{# read and display just one flash message type #}
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success mt-5">
+				{{ message }}
+			</div>
+		{% endfor %}
 	</div>
 {% endblock %}

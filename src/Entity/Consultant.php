@@ -30,6 +30,7 @@ class Consultant
     private $password;
 
 
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();

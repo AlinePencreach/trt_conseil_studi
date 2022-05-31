@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank()]
-    private $password;
+    private $password = 'password';
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $etablissement;
@@ -77,6 +77,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
+
+     
     public function getRoles(): array
     {
         $roles = $this->roles;

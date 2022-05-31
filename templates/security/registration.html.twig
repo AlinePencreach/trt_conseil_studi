@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="example-wrapper m-4">
+	
+		<h1 class="display-5">Formulaire d'Inscription</h1>
+
+        {{ form(form) }}
+
+		{# <form class="mt-4" action="{{ path('app_security_login')}}" method="POST">
+			<div class="mb-3">
+				<label for="username" class="form-label">Email</label>
+				<input type="email" class="form-control" id="username" name="_username">
+			</div>
+			<div class="mb-3">
+				<label for="password" class="form-label">Mot de passe</label>
+				<input type="password" class="form-control" id="password" name="_password">
+			</div>
+			<button type="submit" class="btn btn-primary">S'inscrire</button>
+		</form> #}
+	</div>
+{% endblock %}

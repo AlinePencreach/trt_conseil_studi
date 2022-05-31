@@ -10,16 +10,26 @@
 				<li class="nav-item">
 					<a class="nav-link" aria-current="page" href="/">Accueil</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path('app_consultant')}}">Consultants</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/submit">S'inscrire</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/login">Se connecter</a>
-				</li>
-				
+				{% if is_granted('ROLE_ADMIN') %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_consultant')}}">Consultants</a>
+					</li>
+				{% endif %}
+
+				{# <li class="nav-item">
+					<a class="nav-link" href="/registration">S'inscrire</a>
+				</li> #}
+
+				{% if is_granted('ROLE_USER') %}
+					<li class="nav-item">
+						<a class="nav-link" href="/déconnexion">Se déconnecter</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="/connexion">Se connecter</a>
+					</li>
+				{% endif %}
+
 			</div>
 		</div>
 	</nav>

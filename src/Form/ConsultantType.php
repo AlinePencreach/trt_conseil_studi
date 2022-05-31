@@ -22,6 +22,7 @@ class ConsultantType extends AbstractType
         ->add('email', EmailType::class)
         ->add('password', PasswordType::class)
         ->add('Ajouter', SubmitType::class)
+
         ;
     }
 
