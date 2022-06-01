@@ -22,11 +22,14 @@
 
 				{% if is_granted('ROLE_USER') %}
 					<li class="nav-item">
-						<a class="nav-link" href="/déconnexion">Se déconnecter</a>
+						<a class="nav-link" href="/déconnexion">Déconnection</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/profil">Profil</a>
 					</li>
 				{% else %}
 					<li class="nav-item">
-						<a class="nav-link" href="/connexion">Se connecter</a>
+						<a class="nav-link" href="/connexion">Connection</a>
 					</li>
 				{% endif %}
 
