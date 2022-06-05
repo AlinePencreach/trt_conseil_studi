@@ -28,15 +28,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank()]
     private $roles = [];
 
+
     #[ORM\Column(type: 'string')]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message:'Veuillez saisir une valeur')]
+    #[Assert\Regex(pattern:'/^(?=.*\d)(?=.*[A-Z])(?=.*[!#$%&*+\/=?^_`{|}~-])(?!.*(.)\1{2}).*[a-z].{8,}$/m', message:'Votre mot de passe doit comporter au moins huit caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole.')]
     private $password = 'password';
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    // #[Assert\]
     private $etablissement;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $metier;
+
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(min: 2, max: 25)]
@@ -45,6 +49,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     private $plainPassword = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $CV;
+
+    
 
 
     public function getId(): ?int
@@ -155,6 +164,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
     public function getName(): ?string
     {
         return $this->name;
@@ -163,6 +173,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getCV(): ?string
+    {
+        return $this->CV;
+    }
+
+    public function setCV(?string $CV): self
+    {
+        $this->CV = $CV;
 
         return $this;
     }

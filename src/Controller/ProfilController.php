@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Repository\UserRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Id;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +22,22 @@ class ProfilController extends AbstractController
         ]);
     }
 
+   
+    
     #[Route('/profil/edition/{id}', name: 'app_profil_edit', methods: ['GET', 'POST'])]
-    public function edit(User $user, Request $request, EntityManagerInterface $manager, UserRepository $repository): Response
+    /**
+     * Edite the profil off the user connected
+     *
+     * @param User $user
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    public function edit(User $user, Request $request, EntityManagerInterface $manager): Response
     {
-        $repository->findBy('id');
+        
         $form = $this->createForm(UserType::class, $user);
+        
 
         $form->handleRequest(($request));
         if (!$this->getUser()) {

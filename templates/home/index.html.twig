@@ -17,16 +17,7 @@
 		}
 	</style>
 
-	<div class="example-wrapper mt-4">
-		<div class="jumbotron">
-			<h1 class="display-4">Bienvenue sur TRT Conseil</h1>
-			<p class="lead">La plateforme de travail du monde de la restauration. Que vous cherchiez un emploi ou un salarié vous êtes au bon endroit !</p>
-			<hr class="my-4">
-			<p>Inscrivez vous dès maintenant ou connectez vous pour accéder aux fonctionnalités.</p>
-			<a class="btn btn-primary btn-lg" href="{{ path('app_security_registration') }}" role="button">Inscription</a>
-			<a class="ms-4 text-decoration-none" href="{{ path('app_security_login') }}">
-				Connexion</a>
-		</div>
+	{% if is_granted('ROLE_USER') %}
 
 		{# read and display just one flash message type #}
 		{% for message in app.flashes('success') %}
@@ -34,5 +25,30 @@
 				{{ message }}
 			</div>
 		{% endfor %}
-	</div>
+
+		<div class="example-wrapper mt-4">
+			<div class="jumbotron">
+				<h1 class="display-4">Bienvenue
+					{{ app.user.name}}
+					sur TRT Conseil</h1>
+				<p class="lead"></p>
+				<hr class="my-4">
+
+			</div>
+		</div>
+
+		{# SI UTILISATEUR NON CONNECTÉ CETTE PAGE D'ACCUEIL S'AFFICHE #}
+	{% else %}
+		<div class="example-wrapper mt-4">
+			<div class="jumbotron">
+				<h1 class="display-4">TRT Conseil</h1>
+				<p class="lead">La plateforme de travail du monde de la restauration. Que vous cherchiez un emploi ou un salarié vous êtes au bon endroit !</p>
+				<hr class="my-4">
+				<p>Inscrivez vous dès maintenant ou connectez vous pour accéder aux fonctionnalités.</p>
+				<a class="btn btn-primary btn-lg" href="{{ path('app_security_registration_candidat') }}" role="button">Inscription en tant que candidat</a>
+				<a class="ms-4 text-decoration-none" href="{{ path('app_security_registration_recruteur') }}">
+					S'inscrire en tant que recruteur</a>
+			</div>
+		</div>
+	{% endif %}
 {% endblock %}

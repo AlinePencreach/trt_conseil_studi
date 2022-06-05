@@ -8,28 +8,25 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link" aria-current="page" href="/">Accueil</a>
+					<a class="nav-link" aria-current="page" href="/accueil">Accueil</a>
 				</li>
 				{% if is_granted('ROLE_ADMIN') %}
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_consultant')}}">Consultants</a>
+						<a class="nav-link" href="{{ path('app_consultant', {'role': "CONSULTANT"})}}">Consultants</a>
 					</li>
 				{% endif %}
 
-				{# <li class="nav-item">
-					<a class="nav-link" href="/registration">S'inscrire</a>
-				</li> #}
 
 				{% if is_granted('ROLE_USER') %}
 					<li class="nav-item">
-						<a class="nav-link" href="/déconnexion">Déconnection</a>
+						<a class="nav-link" href="/déconnexion">Déconnexion</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/profil">Profil</a>
 					</li>
 				{% else %}
 					<li class="nav-item">
-						<a class="nav-link" href="/connexion">Connection</a>
+						<a class="nav-link" href="/connexion">Connexion</a>
 					</li>
 				{% endif %}
 

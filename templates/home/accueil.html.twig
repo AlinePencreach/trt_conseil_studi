@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription
+{% block title %}Hello HomeController!
 {% endblock %}
 
 {% block body %}
@@ -17,12 +17,13 @@
 		}
 	</style>
 
-	<div class="example-wrapper m-4">
-	
-		<h1 class="display-5">Formulaire d'Inscription</h1>
-
-        {{ form(form) }}
-
+	<div class="example-wrapper mt-4">
+		<div class="jumbotron">
+			<h1 class="display-4">Bienvenue {{ app.user.name}} sur TRT Conseil</h1>
+			<p class="lead"></p>
+			<hr class="my-4">
+			
+		</div>
 
 	</div>
 {% endblock %}

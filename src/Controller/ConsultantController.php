@@ -56,6 +56,7 @@ class ConsultantController extends AbstractController
         $consultant->setEmail('');
         $consultant->setPassword('');
         $form = $this->createForm(ConsultantType::class, $consultant);
+        // $user->setRoles(['ROLE_USER']);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -125,7 +126,7 @@ class ConsultantController extends AbstractController
      * DELETE
      */
     #[Route('/consultant/suppression/{id}', name: 'consultant_delete')]
-    public function delete(EntityManagerInterface $manager, Consultant $consultant) : Response 
+    public function delete(EntityManagerInterface $manager, Consultant $consultant): Response
     {
         $manager->remove($consultant);
         $manager->flush();
@@ -137,5 +138,5 @@ class ConsultantController extends AbstractController
 
 
         return $this->redirectToRoute('app_consultant');
-    } 
+    }
 }
