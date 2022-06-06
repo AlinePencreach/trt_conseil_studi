@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -13,13 +14,15 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $builder
             ->add('name', TextType::class, ['label' => 'Nom/Prénom'])
             ->add('etablissement', TextType::class)
             ->add('metier', TextType::class)
             ->add('CV', TextType::class, ['label' => 'Votre CV'])
-            ->add('submit', SubmitType::class, ['label' => 'Envoyer'])
-        ;
+            ->add('submit', SubmitType::class, ['label' => 'Envoyer']
+            );
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

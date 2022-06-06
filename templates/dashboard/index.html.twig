@@ -17,23 +17,30 @@
 		}
 	</style>
 
-	<div class="container">
+	<div class="container mt-5">
 		<div class="jumbotron">
-			<h1 class="display-4">Hello
-				{{ controller_name }}! </h1>
-			<p class="lead">Ici vous controllez les consultants avec la méthode CRUD<br>
-				Page accessible uniquement par les ADMINS</p>
-			<p class="lead">La page accessible par les consultant est :
-				<strong>dashboard_consultant</strong>
-			</p>
+			<h1 class="display-5">Ici la liste des membres : </h1>
+			<div class="d-flex">
+			{% if is_granted('ROLE_ADMIN') %}
+			<a class="nav-link" href="{{ path('app_dashboard', {'role': "ADMIN"})}}">Admins</a>
+			<a class="nav-link" href="{{ path('app_dashboard', {'role': "CONSULTANT"})}}">Consultants</a>
+			{% endif %}
+			<a class="nav-link" href="{{ path('app_dashboard', {'role': "RECRUTEUR"})}}">Recruteurs</a>
+			<a class="nav-link" href="{{ path('app_dashboard', {'role': "USER"})}}">Candidats</a>
+			</div>
+
 
             {# {% if not consultants.items is same as ([]) %} #}
 
-			<hr class="my-4">
-			<h2 class="mb-4">Ici la liste des consultants : 
+			{% if is_granted('ROLE_ADMIN') %}
+			<div class="mt-4 mb-2">
 				<a href="{{ path('app_new_consultant') }}">
-                	<div class="btn btn-lg btn-primary">Ajouter</div>
-                </a></h2>
+                	<div class="btn btn-primary">Ajouter un consultant</div>
+                </a>
+			</div>
+			{% endif %}
+		
+		
 
 			{# read and display just one flash message type #}
 {% for message in app.flashes('success') %}
@@ -44,6 +51,7 @@
 
 
 				<table class="table table-striped">
+				
 					<thead>
 						<tr>
 							<th scope="col">Id</th>

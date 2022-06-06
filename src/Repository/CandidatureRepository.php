@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Consultant;
+use App\Entity\Candidature;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Consultant>
+ * @extends ServiceEntityRepository<Candidature>
  *
- * @method Consultant|null find($id, $lockMode = null, $lockVersion = null)
- * @method Consultant|null findOneBy(array $criteria, array $orderBy = null)
- * @method Consultant[]    findAll()
- * @method Consultant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Candidature|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Candidature|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Candidature[]    findAll()
+ * @method Candidature[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ConsultantRepository extends ServiceEntityRepository
+class CandidatureRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Consultant::class);
+        parent::__construct($registry, Candidature::class);
     }
 
-    public function add(Consultant $entity, bool $flush = false): void
+    public function add(Candidature $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class ConsultantRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Consultant $entity, bool $flush = false): void
+    public function remove(Candidature $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class ConsultantRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Consultant[] Returns an array of Consultant objects
+//     * @return Candidature[] Returns an array of Candidature objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class ConsultantRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Consultant
+//    public function findOneBySomeField($value): ?Candidature
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

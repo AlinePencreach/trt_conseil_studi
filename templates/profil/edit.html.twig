@@ -8,10 +8,41 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>formulaire de modification</h1>
-    
-    {{ form(form) }}
+<div class="container w-50 m-4">
+		<h1 class="display-5">Formulaire de modification</h1>
+		<form class="mt-4" action="{{ path('app_profil_edit', {id: user.id})}}" method="POST">
+			<div class="mb-3">
+				<label for="name" class="form-label">Nom / Prénom</label>
+				<input type="name" class="form-control" id="name" name="name">
+			</div>
+            <div class="mb-3">
+				<label for="email" class="form-label">Email</label>
+				<input type="email" class="form-control" id="email" name="email">
+			</div>
+			<div class="mb-3">
+				<label for="password" class="form-label">Mot de passe</label>
+				<input type="password" class="form-control" id="password" name="_password">
+			</div>
+            {% if is_granted('ROLE_RECRUTEUR') %}
+            <div class="mb-3">
+				<label for="etablissement" class="form-label">Etablissement</label>
+				<input type="etablissement" class="form-control" id="etablissement" name="etablissement">
+			</div>
+            {% else %}
+            <div class="mb-3">
+				<label for="metier" class="form-label">Métier</label>
+				<input type="metier" class="form-control" id="metier" name="metier">
+			</div>
+            <div class="mb-3">
+				<label for="CV" class="form-label">Votre CV</label>
+				<input type="CV" class="form-control" id="CV" name="CV">
+			</div>
+            {% endif %}
+
+
+			<button type="submit" class="btn btn-primary">Modifier</button>
+		</form>
+	
 
 </div>
 {% endblock %}

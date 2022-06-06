@@ -31,10 +31,13 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/consultant, roles: ROLE_ADMIN }
+         - { path: ^/liste/ADMIN, roles: ROLE_ADMIN }
+         - { path: ^/liste/CONSULTANT, roles: ROLE_ADMIN }
+         - { path: ^/liste/RECRUTEUR, roles: ROLE_CONSULTANT }
+         - { path: ^/liste/USER, roles: ROLE_CONSULTANT }
          - { path: ^/profile, roles: ROLE_USER }
     role_hierarchy:
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_RECRUTEUR, ROLE_CONSULTANT, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN: [ROLE_USER, ROLE_RECRUTEUR, ROLE_CONSULTANT, ROLE_ALLOWED_TO_SWITCH]
         ROLE_CONSULTANT: [ROLE_USER, ROLE_RECRUTEUR]
         ROLE_RECRUTEUR: [ROLE_USER]
 

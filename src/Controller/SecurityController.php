@@ -25,8 +25,9 @@ class SecurityController extends AbstractController
 
         return $this->render('security/login.html.twig', [
             'controller_name' => 'SecurityController',
-
         ]);
+
+        return $this->redirectToRoute('app_annonce');
     }
 
     #[Route('/déconnexion', name: 'app_security_logout')]
@@ -64,7 +65,7 @@ class SecurityController extends AbstractController
             $user->setPassword(
                 $passwordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->get('password')->getData()
                 )
             );
             // ... perform some action, such as saving the task to the database
@@ -109,6 +110,12 @@ class SecurityController extends AbstractController
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
             $user = $form->getData();
+            $user->setPassword(
+                $passwordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
 
             // ... perform some action, such as saving the task to the database
             $manager->persist($user);
@@ -130,7 +137,7 @@ class SecurityController extends AbstractController
 
 
     /**
-     * This controller display all consultants
+     * This controller display all member
      * 
      * READ
      *
@@ -139,7 +146,7 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/liste/{role}', name: 'app_consultant')]
+    #[Route('/liste/{role}', name: 'app_dashboard')]
     public function indexRoles($role, UserRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $paginator->paginate(
@@ -150,10 +157,12 @@ class SecurityController extends AbstractController
         );
 
 
-        return $this->render('consultant/index.html.twig', [
-            'controller_name' => 'Page Consultant',
+     
+        return $this->render('dashboard/index.html.twig', [
             'user' => $user,
+            
         ]);
+
     }
 
 
@@ -172,6 +181,8 @@ class SecurityController extends AbstractController
         $user = new User();
         $form = $this->createForm(ConsultantType::class, $user);
         $user->setRoles(['ROLE_CONSULTANT']);
+        
+        
 
 
         $form->handleRequest($request);
@@ -199,7 +210,7 @@ class SecurityController extends AbstractController
         }
 
 
-        return $this->renderForm('consultant/new.html.twig', [
+        return $this->renderForm('dashboard/new.html.twig', [
             'form' => $form,
         ]);
     }
@@ -231,10 +242,10 @@ class SecurityController extends AbstractController
                 'Le consultant a bien été modifé.'
             );
 
-            return $this->redirectToRoute('app_consultant');
+            return $this->redirectToRoute('app_home');
         }
 
-        return $this->renderForm('consultant/edit.html.twig', [
+        return $this->renderForm('dashboard/edit.html.twig', [
             'form' => $form,
         ]);
     }
@@ -260,6 +271,9 @@ class SecurityController extends AbstractController
         );
 
 
-        return $this->redirectToRoute('app_consultant');
+        return $this->redirectToRoute('app_home');
     }
+
+
+    
 }
