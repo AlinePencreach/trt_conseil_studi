@@ -16,38 +16,51 @@
 				<div class="">
 					<h1 class="display-4">Bienvenue
 						{{ app.user.name}}
-						sur TRT Conseil
 					</h1>
 					{% if is_granted('ROLE_CONSULTANT') %}
 						<p class="lead">Vous êtes Consultant du site !</p>
 					{% endif %}
+			{% if is_granted('ROLE_RECRUTEUR') %}
+			<div class="btn btn-secondary">Poster une annonce</div>
+			{% elseif is_granted ('ROLE_USER')%}
+			<a href="{{ path('app_candidature') }}"><p class="btn btn-secondary">Voir vos candidatures</p></a>
+			{% endif %}
 					<hr class="my-4">
 				</div>
 			</div>
 
 
 			{# //LES ANNONCES  #}
-			<h2 class="display-5 text-center">Voici les annonces</h2>
+			<h2 class="">Voici les dernière annonces</h2>
 			<table class="table table-striped">
 				<thead>
 					<tr>
 						<th scope="col">Intitulé du poste</th>
 						<th scope="col">Description</th>
 						<th scope="col">Salaire</th>
+						<th scope="col"></th>
 					</tr>
+				</thead>
+				<tbody>
 					{% for annonce in annonces %}
 
 					<tr>
 							<td>{{ annonce.title }}</td>
 							<td>{{ annonce.description }}</td>
 							<td>{{ annonce.salaire }}</td>
+							{% if not is_granted('ROLE_RECRUTEUR') %}
+							<td><p class="btn btn-primary">Postuler</p></td>
+							{% endif %}
 							
-						
 					</tr>
 					{% endfor %}
-				</thead>
-				<tbody></tbody>
+				</tbody>
 			</table>
+			 {# display navigation #}
+                <div class="navigation d-flex justify-content-end">
+                    {{ knp_pagination_render(annonces) }}
+                </div>
+			</div>
 
 
 			{# SI UTILISATEUR NON CONNECTÉ CETTE PAGE D'ACCUEIL S'AFFICHE #}
