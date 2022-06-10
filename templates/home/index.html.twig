@@ -4,82 +4,68 @@
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
+	<div class="container">
 
-	{% if is_granted('ROLE_USER') %}
-		<div class="container mt-5 text-center">
-		{% for message in app.flashes('success') %}
-			<div class="alert alert-success mt-5">
-				{{ message }}
+		{% if is_granted('ROLE_USER') %}
+			<div class="container mt-5 text-center">
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success mt-5">
+						{{ message }}
+					</div>
+				{% endfor %}
+				<div class="">
+					<h1 class="display-4">Bienvenue
+						{{ app.user.name}}
+						sur TRT Conseil
+					</h1>
+					{% if is_granted('ROLE_CONSULTANT') %}
+						<p class="lead">Vous êtes Consultant du site !</p>
+					{% endif %}
+					<hr class="my-4">
+				</div>
 			</div>
-		{% endfor %}
-			<div class="">
-				<h1 class="display-4">Bienvenue {{ app.user.name}} sur TRT Conseil </h1>
-				{% if is_granted('ROLE_CONSULTANT') %}
-				<p class="lead">Vous êtes Consultant du site !</p>
-				{% endif %}
-				<hr class="my-4">
-			</div>
-		</div>
-		{# SI UTILISATEUR NON CONNECTÉ CETTE PAGE D'ACCUEIL S'AFFICHE #}
-	{% else %}
-		<div class="example-wrapper mt-4">
-			<div class="jumbotron">
-				<h1 class="display-4">TRT Conseil</h1>
-				<p class="lead">La plateforme de travail du monde de la restauration. Que vous cherchiez un emploi ou un salarié vous êtes au bon endroit !</p>
-				<hr class="my-4">
-				<p>Inscrivez vous dès maintenant ou <a class="text-decoration-none" href="{{ path('app_security_login') }}">connectez</a> vous pour accéder aux fonctionnalités.</p>
-				<a class="btn btn-primary btn-lg" href="{{ path('app_security_registration_candidat') }}" role="button">Inscription en tant que candidat</a>
-				<a class="ms-4 text-decoration-none" href="{{ path('app_security_registration_recruteur') }}">
-					S'inscrire en tant que recruteur</a>
-			</div>
-		</div>
-	{% endif %}
 
-	<h2 class="display-5 text-center">Voici les annonces</h2>
-	<table class="table table-striped">
-				
-					<thead>
-						<tr>
-							<th scope="col">Intitulé du poste</th>
-							<th scope="col">Description</th>
-							<th scope="col">Salaire</th>
-						
-							<th scope="col">Actions</th>
 
-						</tr>
-					</thead>
-					<tbody>
-					{% for annonce in annonce %}
-					
+			{# //LES ANNONCES  #}
+			<h2 class="display-5 text-center">Voici les annonces</h2>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Intitulé du poste</th>
+						<th scope="col">Description</th>
+						<th scope="col">Salaire</th>
+					</tr>
+					{% for annonce in annonces %}
+
 					<tr>
 							<td>{{ annonce.title }}</td>
 							<td>{{ annonce.description }}</td>
 							<td>{{ annonce.salaire }}</td>
-							<td> <a href="{{ path('consultant_edit', {id: annonce.id}) }}"><div class="btn btn-secondary ">Postuler</div></a>
-							
 							
 						
 					</tr>
-				
-				{% endfor %}
-
-					</tbody>
-				</table>
-
+					{% endfor %}
+				</thead>
+				<tbody></tbody>
+			</table>
 
 
-
+			{# SI UTILISATEUR NON CONNECTÉ CETTE PAGE D'ACCUEIL S'AFFICHE #}
+		{% else %}
+			<div class="mt-4">
+				<div class="jumbotron">
+					<h1 class="display-4">TRT Conseil</h1>
+					<p class="lead">La plateforme de travail du monde de la restauration. Que vous cherchiez un emploi ou un salarié vous êtes au bon endroit !</p>
+					<hr class="my-4">
+					<p>Inscrivez vous dès maintenant ou
+						<a class="text-decoration-none" href="{{ path('app_security_login') }}">connectez</a>
+						vous pour accéder aux fonctionnalités.</p>
+					<a class="btn btn-primary btn-lg" href="{{ path('app_security_registration_candidat') }}" role="button">Inscription en tant que candidat</a>
+					<a class="ms-4 text-decoration-none" href="{{ path('app_security_registration_recruteur') }}">
+						S'inscrire en tant que recruteur</a>
+				</div>
+			</div>
+		{% endif %}
+	</div>
 
 {% endblock %}

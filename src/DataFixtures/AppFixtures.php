@@ -5,9 +5,9 @@ namespace App\DataFixtures;
 
 use Faker;
 use App\Entity\User;
+use App\Entity\Annonce;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -29,7 +29,7 @@ class AppFixtures extends Fixture
             $user->setName($this->faker->name())
                 ->setEmail($this->faker->email())
                 ->setRoles(['ROLE_USER']);
-
+                
                 $hashPassword = $this->hasher->hashPassword(
                     $user,
                     'password'
@@ -40,6 +40,18 @@ class AppFixtures extends Fixture
                 $manager->persist($user);
         }
 
+
+        for ($i=0; $i <  10; $i++) { 
+            $annonce = new Annonce();
+            $annonce->setTitle($this->faker->word())
+                    ->setDescription($this->faker->paragraph(2))
+                    ->setSalaire($this->faker->numberBetween(1200, 2300));
+
+            
+                $manager->persist($annonce);
+        }
+
+    
         $manager->flush();
     }
 }
