@@ -13,19 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(AnnonceRepository $repository, Request $request, PaginatorInterface $paginator): Response
+    public function index(): Response
     {
        
 
-        $annonces = $paginator->paginate(
-
-            $repository->findAll(),
-            $request->query->getInt('page', 1), /*page number*/
-            7 /*limit per page*/
-        );
-
         return $this->render('home/index.html.twig', [
-            'annonces' => $annonces,
             
         ]);
     }

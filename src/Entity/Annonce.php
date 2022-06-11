@@ -30,6 +30,9 @@ class Annonce
     #[ORM\OneToMany(mappedBy: 'annonce_id', targetEntity: Candidature::class)]
     private $candidatures;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'annonces')]
+    private $auteur;
+
     public function __construct()
     {
         $this->candidatures = new ArrayCollection();
@@ -114,6 +117,20 @@ class Annonce
                 $candidature->setAnnonceId(null);
             }
         }
+
+        return $this;
+    }
+
+   
+
+    public function getAuteur(): ?User
+    {
+        return $this->auteur;
+    }
+
+    public function setAuteur(?User $auteur): self
+    {
+        $this->auteur = $auteur;
 
         return $this;
     }

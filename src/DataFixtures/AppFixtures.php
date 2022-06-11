@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 use Faker;
 use App\Entity\User;
 use App\Entity\Annonce;
+use App\Entity\Candidature;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -19,39 +20,92 @@ class AppFixtures extends Fixture
     {
         $this->faker = Faker\Factory::create('fr_FR');
         $this->hasher = $hasher;
-        
     }
 
     public function load(ObjectManager $manager): void
     {
-        for ($i=0; $i <  10; $i++) { 
+        // Fause donnée ADMIN
+        for ($b = 0; $b <  1; $b++) {
+            $user = new User();
+            $user->setName($this->faker->name())
+                ->setEmail($this->faker->email())
+                ->setRoles(['ROLE_ADMIN']);
+
+            $hashPassword = $this->hasher->hashPassword(
+                $user,
+                'password'
+            );
+
+            $user->setPassword($hashPassword);
+
+            $manager->persist($user);
+        }
+
+        // Fause donnée CONSULTANT
+        for ($c = 0; $c <  5; $c++) {
+            $user = new User();
+            $user->setName($this->faker->name())
+                ->setEmail($this->faker->email())
+                ->setRoles(['ROLE_CONSULTANT']);
+
+            $hashPassword = $this->hasher->hashPassword(
+                $user,
+                'password'
+            );
+
+            $user->setPassword($hashPassword);
+
+            $manager->persist($user);
+        }
+
+
+        // Fause donnée USER
+        for ($i = 0; $i <  10; $i++) {
             $user = new User();
             $user->setName($this->faker->name())
                 ->setEmail($this->faker->email())
                 ->setRoles(['ROLE_USER']);
-                
-                $hashPassword = $this->hasher->hashPassword(
-                    $user,
-                    'password'
-                );
 
-                $user->setPassword($hashPassword);
+            $hashPassword = $this->hasher->hashPassword(
+                $user,
+                'password'
+            );
 
-                $manager->persist($user);
+            $user->setPassword($hashPassword);
+            $manager->persist($user);
         }
 
+        // FAUSSE DONNÉES RECRUTEURS ET ANNONCES
+        for ($j = 0; $j <  10; $j++) {
+            $user = new User();
+            $user->setName($this->faker->name())
+                ->setEmail($this->faker->email())
+                ->setRoles(['ROLE_RECRUTEUR']);
 
-        for ($i=0; $i <  10; $i++) { 
-            $annonce = new Annonce();
-            $annonce->setTitle($this->faker->word())
+            $hashPassword = $this->hasher->hashPassword(
+                $user,
+                'password'
+            );
+
+            $user->setPassword($hashPassword);
+
+            // FAUSSE DONNÉES ANNONCES
+            for ($a = 0; $a <  20; $a++) {
+                $annonce = new Annonce();
+                $annonce->setTitle($this->faker->word())
                     ->setDescription($this->faker->paragraph(2))
-                    ->setSalaire($this->faker->numberBetween(1200, 2300));
+                    ->setSalaire($this->faker->numberBetween(1200, 2300))
+                    ->setAuteur($user);
+
+                    $manager->persist($user);
+
+                    $manager->persist($annonce);
+            }
 
             
-                $manager->persist($annonce);
         }
 
-    
+
         $manager->flush();
     }
 }

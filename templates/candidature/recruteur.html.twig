@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<h1>Voici la liste de vos annonces avec les candidats qui ont postuler :</h1>
+    {% for candidature in candidatures %}
+<div class="container d-flex align-items-center">
+<p class="m-2">Le candidat {{ candidature.getCandidatId()}} à postulé a l'annonce {{ candidature.getAnnonceId()}}</p>
+<a href="" class="text-primary m-2">Voir le profil du candidat</a>
+<a href="" class="text-primary m-2">Voir l'annonce</a>
+</div>    
+
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<h1>Voici la liste de vos candidatures</h1>
+    {% for candidature in candidatures %}
+<div class="">Vous avez postulé à l'annonce {{ candidature.getAnnonceId()}}</div>
+<table class="table">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Description</th>
+					<th>Salaire</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+					<tr>
+						<td>{{ candidature.getAnnonceId() }}</td>
+						
+						
+					</tr>
+				
+					
+			
+			</tbody>
+		</table>
+         {# display navigation #}
+                <div class="navigation d-flex justify-content-end">
+                   
+                </div>
+
+    {% endfor %}
+{% endblock %}

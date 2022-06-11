@@ -18,11 +18,14 @@
 
 			{% if is_granted('ROLE_USER') %}
 				<div class="d-flex ">
-					<li class="nav-item">
-						<a class="nav-link" href="/déconnexion">Déconnexion</a>
+				<li class="nav-item">
+						<a class="nav-link" href="/annonce">Annonces</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/profil">Profil</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/déconnexion">Déconnexion</a>
 					</li>
 				</div>
 			{% else %}

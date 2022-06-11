@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TRT Conseil - Annonce
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+		<h1>Annonces</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Description</th>
+					<th>Salaire</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for annonce in annonces %}
+					<tr>
+						<td>{{ annonce.title }}</td>
+						<td>{{ annonce.description }}</td>
+						<td>{{ annonce.salaire }}</td>
+						<td>
+							<a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="6">Il n'y pas d'annonce de publiées</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+         {# display navigation #}
+                <div class="navigation d-flex justify-content-end">
+                    {{ knp_pagination_render(annonces) }}
+                </div>
+	{% endif %}
+</div>
+{% endblock %}

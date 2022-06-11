@@ -26,7 +26,7 @@ class CandidatureController extends AbstractController
             7 /*limit per page*/
         );
 
-        return $this->render('candidature/index.html.twig', [
+        return $this->render('candidature/candidat.html.twig', [
             'candidatures' => $candidatures,
         ]);
     }
@@ -34,7 +34,7 @@ class CandidatureController extends AbstractController
     #[Route('/candidature/recruteur/{annonce}', name: 'app_recruteur_candidature')]
     public function indexrecruteur(Annonce $annonce, CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-
+        
         $candidatures = $paginator->paginate(
 
             $repository->findByAnnonce($annonce),
@@ -42,7 +42,7 @@ class CandidatureController extends AbstractController
             7 /*limit per page*/
         );
 
-        return $this->render('candidature/index.html.twig', [
+        return $this->render('candidature/recruteur.html.twig', [
             'candidatures' => $candidatures,
         ]);
     }

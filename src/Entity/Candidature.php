@@ -48,8 +48,8 @@ class Candidature
         return $this;
     }
 
-    // public function __toString()
-    // {
-    //     return $this->candidatures;
-    // }
+    public function __toString()
+    {
+        return $this->candidatures;
+    }
 }
