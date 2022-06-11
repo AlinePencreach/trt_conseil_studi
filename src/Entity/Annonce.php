@@ -36,6 +36,7 @@ class Annonce
     public function __construct()
     {
         $this->candidatures = new ArrayCollection();
+        // $this->valide = false;
     }
 
     public function getId(): ?int

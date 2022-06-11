@@ -26,8 +26,29 @@ class AnnonceController extends AbstractController
 
         return $this->render('annonce/index.html.twig', [
             'annonces' => $annonceRepository,
+
         ]);
+
     }
+
+    #[Route('/consultant', name: 'app_annonce_consultant', methods: ['GET'])]
+    public function consultant(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
+    {
+        
+        $annonceRepository = $paginator->paginate(
+
+            $annonceRepository->findAll(),
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
+        return $this->render('annonce/consultant.html.twig', [
+            'annonces' => $annonceRepository,
+
+        ]);
+
+    }
+
 
     #[Route('/new', name: 'app_annonce_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AnnonceRepository $annonceRepository): Response
@@ -48,6 +69,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
+    //MONTRE L'ANNONCE EN DÉTAIL
     #[Route('/{id}', name: 'app_annonce_show', methods: ['GET'])]
     public function show(Annonce $annonce): Response
     {
@@ -77,10 +99,34 @@ class AnnonceController extends AbstractController
     #[Route('/{id}', name: 'app_annonce_delete', methods: ['POST'])]
     public function delete(Request $request, Annonce $annonce, AnnonceRepository $annonceRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$annonce->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $annonce->getId(), $request->request->get('_token'))) {
             $annonceRepository->remove($annonce, true);
         }
 
         return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route('/makeItValide/{page}/{id}', name: 'app_annonce_valide', methods: ['GET', 'POST'])]
+    public function makeItValide($page, $id, Request $request, AnnonceRepository $annonceRepository): Response
+    {
+        $annonce = $annonceRepository->find($id);
+        if ($annonce->isValide()) {
+            $annonce->setValide(false);
+        } else {
+            $annonce->setValide(true);
+        }
+
+        $annonceRepository->add($annonce, true);
+
+        $this->addFlash(
+            'success',
+            'L\'annonce à bien été valider'
+        );
+
+
+        return $this->redirectToRoute('app_annonce_index', [
+            'page' => $page,
+        ], Response::HTTP_SEE_OTHER);
     }
 }

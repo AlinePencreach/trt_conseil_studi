@@ -1,38 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonce{% endblock %}
+{% block title %}Annonce
+{% endblock %}
 
 {% block body %}
-    <h1>Annonce</h1>
+	<div class="container w-50 mt-5">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ annonce.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ annonce.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ annonce.description }}</td>
-            </tr>
-            <tr>
-                <th>Salaire</th>
-                <td>{{ annonce.salaire }}</td>
-            </tr>
-            <tr>
-                <th>Valide</th>
-                <td>{{ annonce.valide ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+		<table class="table table-borderless">
+			<tbody>
 
-    <a href="{{ path('app_annonce_index') }}">back to list</a>
+				<tr>
+					<th>Title</th>
+					<td class="text-uppercase">{{ annonce.title }}</td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td>{{ annonce.description }}</td>
+				</tr>
+				<tr>
+					<th>Salaire</th>
+					<td>{{ annonce.salaire }}</td>
+				</tr>
+				<tr>
+					<th>Valide</th>
+					<td>{{ annonce.valide ? 'Yes' : 'No' }}</td>
+				</tr>
+			</tbody>
+           
+			<a class="btn btn-primary mb-3" href="{{ path('app_annonce_index') }}">Revnir aux annonces</a>
+		
+		</table>
 
-    <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">edit</a>
+		
 
-    {{ include('annonce/_delete_form.html.twig') }}
+		<div class="d-flex align-items-center">
+
+			{% if (app.user ==  annonce.auteur) or (is_granted ('ROLE_CONSULTANT'))%}
+				<a class="btn btn-secondary m-1" href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">Modifier l'annonce</a>
+				{{ include('annonce/_delete_form.html.twig') }}
+
+            {% elseif is_granted ('ROLE_RECRUTEUR') %}
+
+			{% elseif is_granted ('ROLE_USER') %}
+				<a class="btn btn-secondary m-1" href="{{ path('app_annonce_index') }}">Postuler</a>
+			{% endif %}
+		</div>
+
+	</div>
 {% endblock %}

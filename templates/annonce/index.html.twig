@@ -4,40 +4,49 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-		<h1>Annonces</h1>
+	<div class="container">
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<h1>Annonces</h1>
 
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Title</th>
-					<th>Description</th>
-					<th>Salaire</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for annonce in annonces %}
+			<table class="table">
+				<thead>
 					<tr>
-						<td>{{ annonce.title }}</td>
-						<td>{{ annonce.description }}</td>
-						<td>{{ annonce.salaire }}</td>
-						<td>
-							<a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
-						</td>
+						<th>Title</th>
+						<th>Description</th>
+						<th>Salaire</th>
+						<th>Actions</th>
+						
 					</tr>
-				{% else %}
-					<tr>
-						<td colspan="6">Il n'y pas d'annonce de publiées</td>
-					</tr>
-				{% endfor %}
+				</thead>
+				<tbody>
+					{% for annonce in annonces %}
+						{% if annonce.valide %}
+
+							<tr>
+								{# <tr style="{{ annonce.valide ? 'background-color:green' : 'background-color:red' }}"> #}
+								<td>{{ annonce.title }}</td>
+								<td>{{ annonce.description }}</td>
+								<td>{{ annonce.salaire }}</td>
+								<td class=" d-flex">
+									{# <a class="btn btn-success" href="{{ path('app_annonce_valide', {'id': annonce.id, 'page': app.request.get('page') ? app.request.get('page') : 1}) }}">{{ annonce.valide ? 'invalider' : 'valider' }}</a> #}
+									{% if is_granted ('ROLE_RECRUTEUR') %}
+									<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
+									{% elseif is_granted ('ROLE_USER') %}
+									<a class="btn text-primary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Postuler</a>
+									<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
+									{% endif %}
+								</td>
+							</tr>
+							{% else %}
+						{% endif %}
+					{% endfor %}
+				</tbody>
 			</tbody>
 		</table>
-         {# display navigation #}
-                <div class="navigation d-flex justify-content-end">
-                    {{ knp_pagination_render(annonces) }}
-                </div>
+		{# display navigation #}
+		<div class="navigation d-flex justify-content-end">
+			{{ knp_pagination_render(annonces) }}
+		</div>
+
 	{% endif %}
-</div>
-{% endblock %}
+</div>{% endblock %}
