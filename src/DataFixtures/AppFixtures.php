@@ -90,11 +90,25 @@ class AppFixtures extends Fixture
             $user->setPassword($hashPassword);
 
             // FAUSSE DONNÉES ANNONCES
-            for ($a = 0; $a <  20; $a++) {
+            for ($a = 0; $a <  3; $a++) {
                 $annonce = new Annonce();
                 $annonce->setTitle($this->faker->word())
                     ->setDescription($this->faker->paragraph(2))
                     ->setSalaire($this->faker->numberBetween(1200, 2300))
+                    ->setValide(false)
+                    ->setAuteur($user);
+
+                    $manager->persist($user);
+
+                    $manager->persist($annonce);
+            }
+
+            for ($q = 0; $q <  3; $q++) {
+                $annonce = new Annonce();
+                $annonce->setTitle($this->faker->word())
+                    ->setDescription($this->faker->paragraph(2))
+                    ->setSalaire($this->faker->numberBetween(1200, 2300))
+                    ->setValide(true)
                     ->setAuteur($user);
 
                     $manager->persist($user);
