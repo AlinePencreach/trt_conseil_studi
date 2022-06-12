@@ -14,6 +14,7 @@
 						{{ message }}
 					</div>
 				{% endfor %}
+
 				<div>
 					<h1 class="display-4">Bienvenue
 						{{ app.user.name}}
@@ -29,9 +30,9 @@
 
 					{# AFFICHE LES BOUTONS SELON LE ROLE POUR LES ANNONCES :  #}
 					{% if is_granted('ROLE_CONSULTANT') %}
-					{# <a href="{{ path('app_recruteur_candidature') }}"> #}
+					<a href="{{ path('app_annonce_consultant') }}">
 							<p class="btn btn-secondary">Voir les annonces à valider</p>
-						{# </a> #}
+						</a>
 						{# <a href="{{ path('app_recruteur_candidature') }}"> #}
 							<p class="btn btn-secondary">Voir les candidature à valider</p>
 						{# </a> #}

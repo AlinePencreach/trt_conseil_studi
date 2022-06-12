@@ -6,7 +6,22 @@
 {% block body %}
 	<div class="container">
 		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+	
 			<h1>Annonces</h1>
+			{% if is_granted('ROLE_CONSULTANT') %}
+					<a href="{{ path('app_annonce_consultant') }}">
+							<p class="btn btn-secondary">Voir les annonces à valider</p>
+						</a>
+			{% elseif is_granted ('ROLE_RECRUTEUR') %}
+			<a href="{{ path('app_annonce_new') }}"><button class="btn btn-primary">Poster une nouvelle annonce</button></a>
+			{% endif %}
+			
+			{% for message in app.flashes('success') %}
+					<div class="alert alert-success">
+						{{ message }}
+					</div>
+				{% endfor %}
+
 
 			<table class="table">
 				<thead>

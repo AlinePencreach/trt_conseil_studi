@@ -27,6 +27,8 @@ class Annonce
     #[ORM\Column(type: 'boolean')]
     private $valide = false;
 
+
+
     #[ORM\OneToMany(mappedBy: 'annonce_id', targetEntity: Candidature::class)]
     private $candidatures;
 

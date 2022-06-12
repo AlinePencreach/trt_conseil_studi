@@ -54,11 +54,17 @@ class AnnonceController extends AbstractController
     public function new(Request $request, AnnonceRepository $annonceRepository): Response
     {
         $annonce = new Annonce();
+        
         $form = $this->createForm(Annonce1Type::class, $annonce);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $annonceRepository->add($annonce, true);
+
+            $this->addFlash(
+                'success',
+                'Votre annonce à bien été prise en compte. Un consultant va la valider dans les plus bref délais.'
+            );
 
             return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -66,6 +72,7 @@ class AnnonceController extends AbstractController
         return $this->renderForm('annonce/new.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
+            
         ]);
     }
 

@@ -22,16 +22,21 @@
 					<td>{{ annonce.salaire }}</td>
 				</tr>
 				<tr>
+					<th>Auteur</th>
+					<td>{{ annonce.auteur }}</td>
+				</tr>
+				<tr>
 					<th>Valide</th>
 					<td>{{ annonce.valide ? 'Yes' : 'No' }}</td>
 				</tr>
 			</tbody>
-           
-			<a class="btn btn-primary mb-3" href="{{ path('app_annonce_index') }}">Revnir aux annonces</a>
-		
+			{% if is_granted ('ROLE_CONSULTANT') %}
+				<a class="btn btn-primary m-3" href="{{ path('app_annonce_consultant') }}">Revenir aux annonces a valider</a>
+			{% endif %}
+			<a class="btn btn-primary m-3" href="{{ path('app_annonce_index') }}">Revenir aux annonces</a>
+
 		</table>
 
-		
 
 		<div class="d-flex align-items-center">
 
@@ -39,7 +44,7 @@
 				<a class="btn btn-secondary m-1" href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">Modifier l'annonce</a>
 				{{ include('annonce/_delete_form.html.twig') }}
 
-            {% elseif is_granted ('ROLE_RECRUTEUR') %}
+			{% elseif is_granted ('ROLE_RECRUTEUR') %}
 
 			{% elseif is_granted ('ROLE_USER') %}
 				<a class="btn btn-secondary m-1" href="{{ path('app_annonce_index') }}">Postuler</a>
