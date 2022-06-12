@@ -33,8 +33,11 @@ security:
     access_control:
          - { path: ^/liste/ADMIN, roles: ROLE_ADMIN }
          - { path: ^/liste/CONSULTANT, roles: ROLE_ADMIN }
+         - { path: ^/consultant, roles: ROLE_ADMIN }
          - { path: ^/liste/RECRUTEUR, roles: ROLE_CONSULTANT }
          - { path: ^/liste/USER, roles: ROLE_CONSULTANT }
+         - { path: ^/annonce/makeItValide/, roles: ROLE_CONSULTANT }
+         - { path: ^/annonce/new, roles: ROLE_RECRUTEUR }
          - { path: ^/candidature, roles: ROLE_USER }
          - { path: ^/profile, roles: ROLE_USER }
          - { path: ^/annonce, roles: ROLE_USER }

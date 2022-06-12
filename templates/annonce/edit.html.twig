@@ -6,11 +6,25 @@
 {% block body %}
 	{% if (app.user ==  annonce.auteur) or (is_granted ('ROLE_CONSULTANT'))%}
 		<h1>Modifier l'annonce</h1>
-
 		{{ include('annonce/_form.html.twig', {'button_label': 'Update'}) }}
-
 		<a href="{{ path('app_annonce_index') }}">Revenir aux annonces</a>
-
 		{{ include('annonce/_delete_form.html.twig') }}
+	{% else %}
+		<div class="myModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger display-5">⚠️ Attention ⚠️</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="fs-4">Vous essayez de modifier une annonce dont vous n'êtes pas l'auteur.</p>
+        <p class="fs-5 text-uppercase text-decoration-underline">Cette action n'est pas autorisé !</p>
+      </div>
+    </div>
+  </div>
+</div>
+		
+		
 	{% endif %}
 {% endblock %}

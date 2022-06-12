@@ -168,7 +168,7 @@ class SecurityController extends AbstractController
 
 
 
-    #[Route('/new_consultant', name: 'app_new_consultant', methods: ['GET', 'POST'])]
+    #[Route('/consultant/new', name: 'app_new_consultant', methods: ['GET', 'POST'])]
     /**
      * Registration new Consultant by ADMIN
      *

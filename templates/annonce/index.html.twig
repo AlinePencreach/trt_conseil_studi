@@ -15,7 +15,7 @@
 						<th>Description</th>
 						<th>Salaire</th>
 						<th>Actions</th>
-						
+
 					</tr>
 				</thead>
 				<tbody>
@@ -27,13 +27,14 @@
 								<td>{{ annonce.title }}</td>
 								<td>{{ annonce.description }}</td>
 								<td>{{ annonce.salaire }}</td>
-								<td class=" d-flex">
+								<td
+									class=" d-flex">
 									{# <a class="btn btn-success" href="{{ path('app_annonce_valide', {'id': annonce.id, 'page': app.request.get('page') ? app.request.get('page') : 1}) }}">{{ annonce.valide ? 'invalider' : 'valider' }}</a> #}
 									{% if is_granted ('ROLE_RECRUTEUR') %}
-									<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
+										<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
 									{% elseif is_granted ('ROLE_USER') %}
-									<a class="btn text-primary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Postuler</a>
-									<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
+										<a class="btn text-primary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Postuler</a>
+										<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
 									{% endif %}
 								</td>
 							</tr>
