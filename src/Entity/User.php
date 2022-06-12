@@ -61,10 +61,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'auteur', targetEntity: Annonce::class)]
     private $annonces;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Candidatures::class, orphanRemoval: true)]
+    private $candidaturess;
+
     public function __construct()
     {
         $this->candidatures = new ArrayCollection();
         $this->annonces = new ArrayCollection();
+        $this->candidaturess = new ArrayCollection();
     }
 
     
@@ -268,5 +272,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, Candidatures>
+     */
+    public function getCandidaturess(): Collection
+    {
+        return $this->candidaturess;
+    }
+
+    public function addCandidaturess(Candidatures $candidaturess): self
+    {
+        if (!$this->candidaturess->contains($candidaturess)) {
+            $this->candidaturess[] = $candidaturess;
+            $candidaturess->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidaturess(Candidatures $candidaturess): self
+    {
+        if ($this->candidaturess->removeElement($candidaturess)) {
+            // set the owning side to null (unless already changed)
+            if ($candidaturess->getUser() === $this) {
+                $candidaturess->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

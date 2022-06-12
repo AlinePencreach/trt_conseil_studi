@@ -35,10 +35,14 @@ class Annonce
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'annonces')]
     private $auteur;
 
+    #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: Candidatures::class, orphanRemoval: true)]
+    private $candidaturess;
+
     public function __construct()
     {
         $this->candidatures = new ArrayCollection();
         // $this->valide = false;
+        $this->candidaturess = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,5 +145,35 @@ class Annonce
     public function __toString()
     {
         return $this->title;
+    }
+
+    /**
+     * @return Collection<int, Candidatures>
+     */
+    public function getCandidaturess(): Collection
+    {
+        return $this->candidaturess;
+    }
+
+    public function addCandidaturess(Candidatures $candidaturess): self
+    {
+        if (!$this->candidaturess->contains($candidaturess)) {
+            $this->candidaturess[] = $candidaturess;
+            $candidaturess->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidaturess(Candidatures $candidaturess): self
+    {
+        if ($this->candidaturess->removeElement($candidaturess)) {
+            // set the owning side to null (unless already changed)
+            if ($candidaturess->getAnnonce() === $this) {
+                $candidaturess->setAnnonce(null);
+            }
+        }
+
+        return $this;
     }
 }

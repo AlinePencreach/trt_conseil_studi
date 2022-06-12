@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Annonce;
 use App\Form\Annonce1Type;
+use App\Entity\Candidature;
 use App\Repository\AnnonceRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,6 +83,16 @@ class AnnonceController extends AbstractController
     {
         return $this->render('annonce/show.html.twig', [
             'annonce' => $annonce,
+        ]);
+    }
+
+    //MONTRE L'ANNONCE EN DÉTAIL
+    #[Route('/{title}', name: 'app_annonce_show_title', methods: ['GET'])]
+    public function showtitle(Annonce $annonce): Response
+    {
+        return $this->render('annonce/title.html.twig', [
+            'annonce' => $annonce,
+            
         ]);
     }
 

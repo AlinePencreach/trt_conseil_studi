@@ -3,34 +3,19 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-<h1>Voici la liste de vos candidatures</h1>
-    {% for candidature in candidatures %}
-<div class="">Vous avez postulé à l'annonce {{ candidature.getAnnonceId()}}</div>
-<table class="table">
-			<thead>
-				<tr>
-					<th>Title</th>
-					<th>Description</th>
-					<th>Salaire</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				
-					<tr>
-						<td>{{ candidature.getAnnonceId() }}</td>
-						
-						
-					</tr>
-				
-					
-			
-			</tbody>
-		</table>
-         {# display navigation #}
-                <div class="navigation d-flex justify-content-end">
-                   
-                </div>
+	<div class="container m-4">
+		
+			<h1>Voici la liste de vos candidatures</h1>
+			{% for candidature in candidatures %}
+				<div>Vous avez postulé à l'annonce
+					{{ candidature.getAnnonceId()}}
+					<a class="btn text-secondary" href="{{ path('app_annonce_show_title', {'title': candidature.getAnnonceId}) }}">Plus de détails</a>
+				</div>
 
-    {% endfor %}
+				{# display navigation #}
+				<div class="navigation d-flex justify-content-end"></div>
+
+			
+		{% endfor %}
+	</div>
 {% endblock %}

@@ -73,6 +73,8 @@ class AppFixtures extends Fixture
 
             $user->setPassword($hashPassword);
             $manager->persist($user);
+
+            
         }
 
         // FAUSSE DONNÉES RECRUTEURS ET ANNONCES
