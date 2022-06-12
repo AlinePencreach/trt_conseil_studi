@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Annonce;
+use App\Repository\AnnonceRepository;
 use App\Repository\CandidatureRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CandidatureController extends AbstractController
 {
     #[Route('/candidature/candidat/', name: 'app_candidature')]
-    public function index(CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    public function index(AnnonceRepository $annonceRepository, CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 
         /** @var User $user */
@@ -28,6 +29,7 @@ class CandidatureController extends AbstractController
 
         return $this->render('candidature/candidat.html.twig', [
             'candidatures' => $candidatures,
+            'annonces' => $annonceRepository,
         ]);
     }
 
