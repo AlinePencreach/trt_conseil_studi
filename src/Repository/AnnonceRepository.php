@@ -39,20 +39,19 @@ class AnnonceRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Annonce[] Returns an array of Annonce objects
-//     */
-//    public function findByExampleField($annonce): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.annonce = :val')
-//            ->setParameter('val', $annonce)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Annonce[] Returns an array of Annonce objects
+    */
+   public function findByUser($user): array
+   {
+       return $this->createQueryBuilder('a')
+           ->andWhere('a.auteur = :val')
+           ->setParameter('val', $user)
+           ->orderBy('a.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?Annonce
 //    {

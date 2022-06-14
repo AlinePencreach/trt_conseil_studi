@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\User;
+
 use App\Form\Annonce1Type;
 use App\Repository\AnnonceRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -17,7 +19,8 @@ class AnnonceController extends AbstractController
     #[Route('/', name: 'app_annonce_index', methods: ['GET'])]
     public function index(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        $annonceRepository = $paginator->paginate(
+        
+        $annonces = $paginator->paginate(
 
             $annonceRepository->findAll(),
             $request->query->getInt('page', 1), /*page number*/
@@ -25,7 +28,26 @@ class AnnonceController extends AbstractController
         );
 
         return $this->render('annonce/index.html.twig', [
-            'annonces' => $annonceRepository,
+            'annonces' => $annonces,
+
+        ]);
+
+    }
+
+    #[Route('/mes_annonces', name: 'app_annonce_user', methods: ['GET'])]
+    public function indexUser(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $annonces = $paginator->paginate(
+
+            $annonceRepository->findByUser($user),
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
+        return $this->render('annonce/user.html.twig', [
+            'annonces' => $annonces,
 
         ]);
 
@@ -35,7 +57,7 @@ class AnnonceController extends AbstractController
     public function consultant(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
     {
         
-        $annonceRepository = $paginator->paginate(
+        $annonces = $paginator->paginate(
 
             $annonceRepository->findAll(),
             $request->query->getInt('page', 1), /*page number*/
@@ -43,7 +65,7 @@ class AnnonceController extends AbstractController
         );
 
         return $this->render('annonce/consultant.html.twig', [
-            'annonces' => $annonceRepository,
+            'annonces' => $annonces,
 
         ]);
 
@@ -53,13 +75,19 @@ class AnnonceController extends AbstractController
     #[Route('/new', name: 'app_annonce_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AnnonceRepository $annonceRepository): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         $annonce = new Annonce();
+        $annonce->setAuteur($user);
         
         $form = $this->createForm(Annonce1Type::class, $annonce);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $annonceRepository->add($annonce, true);
+            
+            
+           
 
             $this->addFlash(
                 'success',

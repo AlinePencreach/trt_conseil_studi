@@ -19,6 +19,9 @@ class Candidature
     #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: 'candidatures')]
     private $annonce_id;
 
+    #[ORM\Column(type: 'boolean')]
+    private $valide = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -48,8 +51,17 @@ class Candidature
         return $this;
     }
 
-    public function __toString()
+    public function isValide(): ?bool
     {
-        return $this->candidatures;
+        return $this->valide;
     }
+
+    public function setValide(bool $valide): self
+    {
+        $this->valide = $valide;
+
+        return $this;
+    }
+
+  
 }

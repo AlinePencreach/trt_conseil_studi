@@ -24,12 +24,14 @@
 						<th>Description</th>
 						<th>Salaire</th>
 						<th>Actions</th>
+						<th>En attente</th>
+
 
 					</tr>
 				</thead>
 				<tbody>
 					{% for annonce in annonces %}
-						{% if annonce.valide %}
+						
 
 							<tr>
 								{# <tr style="{{ annonce.valide ? 'background-color:green' : 'background-color:red' }}"> #}
@@ -41,14 +43,12 @@
 									{# <a class="btn btn-success" href="{{ path('app_annonce_valide', {'id': annonce.id, 'page': app.request.get('page') ? app.request.get('page') : 1}) }}">{{ annonce.valide ? 'invalider' : 'valider' }}</a> #}
 									{% if is_granted ('ROLE_RECRUTEUR') %}
 										<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
-									{% elseif is_granted ('ROLE_USER') %}
-										<a class="btn text-primary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Postuler</a>
-										<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
 									{% endif %}
 								</td>
+								<td>{{ annonce.valide ? 'Validé' : 'En attente' }}</td>
 							</tr>
 							{% else %}
-						{% endif %}
+						
 					{% endfor %}
 				</tbody>
 			</tbody>

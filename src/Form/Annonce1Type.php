@@ -22,9 +22,10 @@ class Annonce1Type extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+       
         $resolver->setDefaults([
             'data_class' => Annonce::class,
-            'auteur_id' => User::class,
+        
         ]);
     }
 }
