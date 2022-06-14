@@ -6,20 +6,18 @@
 
 	<div class="container m-4">
 
-			<h1>Voici la liste de vos candidatures</h1>
-			{% for candidature in candidatures %}
-				<div>Vous avez postulé à l'annonce
-					{{ candidature.getAnnonceId()}}
+		<h1>Voici la liste de vos candidatures</h1>
+		{% for candidature in candidatures %}
+			<div>Vous avez postulé à l'annonce
+				{{ candidature.getAnnonceId()}}
+					<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': candidature.getAnnonceId().id}) }}">Plus de détails</a>
+				
+			</div>
 
-			{% for annonce in annonces %}
-					<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
-			{% endfor %}
-				</div>
-
-				{# display navigation #}
-				<div class="navigation d-flex justify-content-end"></div>
+			{# display navigation #}
+			<div class="navigation d-flex justify-content-end"></div>
 
 
-			{% endfor %}
+		{% endfor %}
 	</div>
 {% endblock %}

@@ -7,17 +7,8 @@
 	<div class="container">
 		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 	
-			<h1>Annonces</h1>
-			{% if is_granted('ROLE_CONSULTANT') %}
-					<a href="{{ path('app_annonce_consultant') }}">
-							<p class="btn btn-secondary">Voir les annonces à valider</p>
-						</a>
-			{% elseif is_granted ('ROLE_RECRUTEUR') %} 
-			<a href="{{ path('app_annonce_new') }}"><button class="btn btn-primary">Poster une nouvelle annonce</button></a>
-			<a href="{{ path('app_annonce_show', {'id': app.user}) }}"><button class="btn btn-primary">Voir vos annonces validées</button></a>
-			{# <a href="{{ path('app_recruteur_candidature')}}"><button class="btn btn-primary">Voir les candidatures à vos annonces</button></a> #}
-
-			{% endif %}
+			<h1>Vos Annonces</h1>
+			{% if is_granted ('ROLE_RECRUTEUR') %}
 			
 			{% for message in app.flashes('success') %}
 					<div class="alert alert-success">
@@ -67,5 +58,6 @@
 			{{ knp_pagination_render(annonces) }}
 		</div>
 
+			{% endif %}
 	{% endif %}
 </div>{% endblock %}

@@ -68,4 +68,12 @@ class ProfilController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    #[Route('/cv', name: 'app_profil_cv')]
+    public function indexCv(): Response
+    {
+        return $this->render('profil/cv.html.twig', [
+            'controller_name' => 'ProfilController',
+        ]);
+    }
 }

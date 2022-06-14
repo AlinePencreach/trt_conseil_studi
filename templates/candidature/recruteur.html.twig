@@ -7,8 +7,8 @@
     {% for candidature in candidatures %}
 <div class="container d-flex align-items-center">
 <p class="m-2">Le candidat {{ candidature.getCandidatId()}} à postulé a l'annonce {{ candidature.getAnnonceId()}}</p>
-<a href="" class="text-primary m-2">Voir le profil du candidat</a>
-<a href="" class="text-primary m-2">Voir l'annonce</a>
+<a href="" class="text-primary m-2">Voir le cv du candidat</a>
+<a href="{{ path('app_annonce_show', {'id': candidature.getAnnonceId().id}) }}" class="text-primary m-2">Voir l'annonce</a>
 </div>    
 
     {% endfor %}

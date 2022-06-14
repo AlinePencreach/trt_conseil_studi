@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TRT Conseil{% endblock %}
+
+{% block body %}
+
+
+<div class="container-fluid m-5">
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success m-5">
+        {{ message }}
+    </div>
+{% endfor %}
+    
+    
+<h1 class="display-3">l</h1>
+
+  <div>
+    <h2 class="text-decoration-underline">Voici vos information : </h2>
+	<p>{{ app.user.name }}</p>
+	<p>{{ app.user.email }}</p>
+	<p>{{ app.user.metier }}</p>
+	<p>{{ app.user.CV }}</p>
+
+  </div>
+
+    
+     <p>
+     <a class="btn btn-secondary"href="{{ path('app_profil_edit', {id: app.user.id}) }}">Modifier ou complèter votre profil</a>
+     </p>
+
+</div>
+{% endblock %}
