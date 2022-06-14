@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TRT Conseil - Annonce
+{% endblock %}
+{% block body %}
+
+
+
+	<div class="container">
+		<div class="jumbotron">
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<h1>candidatures à valider</h1>
+
+{# read and display just one flash message type #}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
+			<table class="table table-striped">
+				<thead>
+					<tr>
+					
+						<th>annonce</th>
+						<th>candidat</th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for candidature in candidatures %}
+						
+
+						<tr style="{{ candidature.valide ? 'display:none'  }}">
+							<td>{{ candidature.getAnnonceId() }}</td>
+							<td>{{ candidature.getCandidatId() }}</td>
+							{# <td>{{ ca.salaire }}</td> #}
+							<td class="">
+								<a href="{{ path('app_annonce_show', {'id': candidature.getAnnonceId().id}) }}">Voir l'annonce</a>
+							</td>
+							<td class="">
+								<a href="{{ path('app_annonce_show', {'id': candidature.getAnnonceId().id}) }}">Voir le cv</a>
+							</td>
+							<td class="">
+								<a class="btn btn-success" href="{{ path('app_candidature_valide', {'id': candidature.id, 'page': app.request.get('page') ? app.request.get('page') : 1}) }}">{{ candidature.valide ? 'invalider' : 'valider' }}</a>
+							</td>
+						
+						</tr>
+
+
+						{# {% endif %} #}
+					{% else %}
+						<tr>
+							<td colspan="6">Il n'y pas d'annonces à valider</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</tbody>
+		</table>
+		{# display navigation #}
+		<div class="navigation d-flex justify-content-end">
+			{{ knp_pagination_render(candidatures) }}
+		</div>
+	{% endif %}
+</div>
+{% endblock %}

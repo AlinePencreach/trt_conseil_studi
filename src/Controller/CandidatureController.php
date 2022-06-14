@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CandidatureController extends AbstractController
 {
+    
     #[Route('/candidature/candidat/', name: 'app_candidature')]
     public function index(AnnonceRepository $annonceRepository, CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -74,6 +75,27 @@ class CandidatureController extends AbstractController
         }
     }
 
+    //affiche les candidatures a valider par les consultants
+    #[Route('/candidature/consultant', name: 'app_candidature_consultant', methods: ['GET'])]
+    public function candidatureConsultant(CandidatureRepository $candidatureRepository, PaginatorInterface $paginator, Request $request): Response
+    {
+        
+        $candidatures = $paginator->paginate(
+
+            $candidatureRepository->findAll(),
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
+
+        return $this->render('candidature/consultant.html.twig', [
+            'candidatures' => $candidatures,
+            
+
+        ]);
+
+    }
+
+
     #[Route('/candidature/makeItValide/{page}/{id}', name: 'app_candidature_valide', methods: ['GET', 'POST'])]
     public function makeItValide($page, $id, CandidatureRepository $candidatureRepository): Response
     {
@@ -96,5 +118,7 @@ class CandidatureController extends AbstractController
             'page' => $page,
         ], Response::HTTP_SEE_OTHER);
     }
+
+
 
 }
