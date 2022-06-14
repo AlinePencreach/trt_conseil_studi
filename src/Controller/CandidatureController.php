@@ -34,31 +34,29 @@ class CandidatureController extends AbstractController
         ]);
     }
 
-    #[Route('/candidature/recruteur/{annonce}', name: 'app_recruteur_candidature')]
-    public function indexrecruteur(Annonce $annonce, CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
-    {
+    // #[Route('/candidature/recruteur/', name: 'app_recruteur_candidature')]
+    // public function indexrecruteur(Annonce $annonce, CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    // {
         
-        $candidatures = $paginator->paginate(
+    //     $candidatures = $paginator->paginate(
 
-            $repository->findByAnnonce($annonce),
-            $request->query->getInt('page', 1), /*page number*/
-            7 /*limit per page*/
-        );
+    //         $repository->findByAnnonce($annonce),
+    //         $request->query->getInt('page', 1), /*page number*/
+    //         7 /*limit per page*/
+    //     );
 
-        return $this->render('candidature/recruteur.html.twig', [
-            'candidatures' => $candidatures,
-        ]);
-    }
+    //     return $this->render('candidature/recruteur.html.twig', [
+    //         'candidatures' => $candidatures,
+    //     ]);
+    // }
 
-    #[Route('/candidature/new', name: 'app_candidature_new', methods: ['GET', 'POST'])]
-    public function newCandidature(CandidatureRepository $candidatureRepository, Annonce $annonce): Response
+    #[Route('/candidature/new/{annonce}', name: 'app_candidature_new', methods: ['GET', 'POST'])]
+    public function newCandidature(Annonce $annonce, CandidatureRepository $candidatureRepository, ): Response
     {
          /** @var User $user */
          $user = $this->getUser();
          $candidature = new Candidature();
          $candidature->setCandidatId($user)
-
-         /** @var Annonce $annonce */
                     ->setAnnonceId($annonce);
 
     
@@ -71,7 +69,7 @@ class CandidatureController extends AbstractController
             );
 
             return $this->redirectToRoute('app_annonce_index', [
-                'candidature' => $candidature, 
+             
             ], Response::HTTP_SEE_OTHER);
         }
     }

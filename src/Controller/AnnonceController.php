@@ -108,6 +108,21 @@ class AnnonceController extends AbstractController
     #[Route('/{id}', name: 'app_annonce_show', methods: ['GET'])]
     public function show(Annonce $annonce): Response
     {
+         //       /** @var User $user */
+        //  $user = $this->getUser();
+        //  if ($user = $annonce->getAuteur()) {
+        //      # code...
+        //      $candidatures = $paginator->paginate(
+                 
+        //          $repository->findByCandidature($annonce),
+        //          $request->query->getInt('page', 1), /*page number*/
+        //          7 /*limit per page*/
+        //         );
+                
+        //     }
+
+
+
         return $this->render('annonce/show.html.twig', [
             'annonce' => $annonce,
         ]);

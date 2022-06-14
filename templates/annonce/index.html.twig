@@ -15,7 +15,7 @@
 			{% elseif is_granted ('ROLE_RECRUTEUR') %} 
 			<a href="{{ path('app_annonce_new') }}"><button class="btn btn-primary">Poster une nouvelle annonce</button></a>
 			<a href="{{ path('app_annonce_user', {'user': app.user.id}) }}"><button class="btn btn-primary">Voir vos annonces validées</button></a>
-			{# <a href="{{ path('app_recruteur_candidature')}}"><button class="btn btn-primary">Voir les candidatures à vos annonces</button></a> #}
+			{# <a href="{{ path('app_recruteur_candidature', {'annonce': })}}"><button class="btn btn-primary">Voir les candidatures à vos annonces</button></a> #}
 
 			{% endif %}
 			
@@ -51,7 +51,7 @@
 									{% if is_granted ('ROLE_RECRUTEUR') %}
 										<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
 									{% elseif is_granted ('ROLE_USER') %}
-										<a class="btn text-primary" href="{{ path('app_candidature_new') }}">Postuler</a>
+										<a class="btn text-primary" href="{{ path('app_candidature_new', {'annonce': annonce.id}) }}">Postuler</a>
 										<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
 									{% endif %}
 								</td>
