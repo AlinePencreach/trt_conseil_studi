@@ -22,12 +22,23 @@ class SecurityController extends AbstractController
     #[Route('/connexion', name: 'app_security_login', methods: ['GET', 'POST'])]
     public function index(): Response
     {
-
+        // /** @var User $user */
+        // $user = $this->getUser();
+        // $valide->isValide();
+        
         return $this->render('security/login.html.twig', [
             'controller_name' => 'SecurityController',
-        ]);
+            
+            ]);
 
-        return $this->redirectToRoute('app_annonce');
+        // if ($valide == 1) {
+        //     # code...
+            
+            
+                
+                
+        //     }
+       
     }
 
     #[Route('/déconnexion', name: 'app_security_logout')]
@@ -74,7 +85,7 @@ class SecurityController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Vous avez bien été enregisté'
+                'Vous avez bien été enregisté. Un consultant doit tout fois valider votre inscription avant que vous puissez vous connectez.'
             );
 
             return $this->redirectToRoute('app_home');

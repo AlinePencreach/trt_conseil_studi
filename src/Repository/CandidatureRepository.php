@@ -55,11 +55,13 @@ class CandidatureRepository extends ServiceEntityRepository
       /**
     * @return Candidature[] Returns an array of Candidature objects
     */
-    public function findByAnnonce($annonce): array
+    public function findValideByAnnonce($annonce): array
     {
         return $this->createQueryBuilder('candidatures')
             ->andWhere('candidatures.annonce_id = :val')
+            ->andWhere('candidatures.valide = :val2')
             ->setParameter('val', $annonce)
+            ->setParameter('val2', '1')
             ->getQuery()
             ->getResult()
         ;

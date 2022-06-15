@@ -21,6 +21,12 @@ class Annonce
     #[ORM\Column(type: 'text')]
     private $description;
 
+    #[ORM\Column(type: 'text')]
+    private $etablissement;
+
+    #[ORM\Column(type: 'text')]
+    private $adress;
+
     #[ORM\Column(type: 'integer')]
     private $salaire;
 
@@ -145,4 +151,44 @@ class Annonce
     }
 
 
+
+    /**
+     * Get the value of etablissement
+     */ 
+    public function getEtablissement()
+    {
+        return $this->etablissement;
+    }
+
+    /**
+     * Set the value of etablissement
+     *
+     * @return  self
+     */ 
+    public function setEtablissement($etablissement)
+    {
+        $this->etablissement = $etablissement;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of adress
+     */ 
+    public function getAdress()
+    {
+        return $this->adress;
+    }
+
+    /**
+     * Set the value of adress
+     *
+     * @return  self
+     */ 
+    public function setAdress($adress)
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
 }

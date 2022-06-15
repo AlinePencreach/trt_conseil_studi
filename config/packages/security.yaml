@@ -39,7 +39,7 @@ security:
          - { path: ^/annonce/makeItValide, roles: ROLE_CONSULTANT }
          - { path: ^/candidature/makeItValide, roles: ROLE_CONSULTANT }
          - { path: ^/annonce/consultant, roles: ROLE_CONSULTANT }
-         - { path: ^/candidature/consultant', roles: ROLE_CONSULTANT }
+         - { path: ^/candidature/consultant/', roles: ROLE_CONSULTANT }
          - { path: ^/annonce/new, roles: ROLE_RECRUTEUR }
          - { path: ^/annonce/mes_annonces, roles: ROLE_RECRUTEUR }
          - { path: ^/candidature, roles: ROLE_USER }

@@ -22,20 +22,31 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/déconnexion">Déconnexion</a>
 				</li>
+			{% endif %}
 
-
+			{% if is_granted('ROLE_RECRUTEUR') %}
+				<div class="d-flex ">
+					<li class="nav-item">
+						<a class="nav-link" href="/profil">Profil</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_annonce_user') }}">Mes Annonces</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/déconnexion">Déconnexion</a>
+					</li>
+				</div>
 			{% elseif is_granted('ROLE_USER') %}
 				<div class="d-flex ">
 					<li class="nav-item">
 						<a class="nav-link" href="/annonce">Annonces</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/profil">Profil</a>
+						<a class="nav-link" href="{{ path('app_candidature') }}">Mes Candidature</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ path('app_candidature') }}">Vos candidatures</a>
+						<a class="nav-link" href="/profil">Profil</a>
 					</li>
-
 					<li class="nav-item">
 						<a class="nav-link" href="/déconnexion">Déconnexion</a>
 					</li>

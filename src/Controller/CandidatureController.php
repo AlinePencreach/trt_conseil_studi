@@ -37,22 +37,40 @@ class CandidatureController extends AbstractController
         ]);
     }
 
-    //affiche les candidature aux annonce du recruteur 
-    // #[Route('/candidature/recruteur/', name: 'app_recruteur_candidature')]
-    // public function indexrecruteur(Annonce $annonce, CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    // //affiche les candidature aux annonces du recruteur 
+    // #[Route('/candidature/recruteur/', name: 'app_candidature_recruteur')]
+    // public function indexrecruteur(): Response
     // {
         
-    //     $candidatures = $paginator->paginate(
+    //     // $candidatures = $paginator->paginate(
 
-    //         $repository->findByAnnonce($annonce),
-    //         $request->query->getInt('page', 1), /*page number*/
-    //         7 /*limit per page*/
-    //     );
+    //     //     $repository->findByAnnonce($annonce),
+    //     //     $request->query->getInt('page', 1), /*page number*/
+    //     //     7 /*limit per page*/
+    //     // );
 
     //     return $this->render('candidature/recruteur.html.twig', [
-    //         'candidatures' => $candidatures,
+            
     //     ]);
     // }
+
+        //affiche les candidature aux annonces du recruteur 
+        #[Route('/candidatures/annonce/{annonce}', name: 'app_annonce_candidature')]
+        public function indexUserAnnonce(Annonce $annonce, PaginatorInterface $paginator, CandidatureRepository $repository, Request $request): Response
+        {
+    
+            $candidatures = $paginator->paginate(
+    
+                $repository->findValideByAnnonce($annonce),
+                $request->query->getInt('page', 1), /*page number*/
+                7 /*limit per page*/
+            );
+    
+            return $this->render('annonce/candidature.html.twig', [
+                'candidatures' => $candidatures, 
+               'annonce' => $annonce,
+            ]);
+        }
 
     //permet de postuler a une annonce en recuperant id annonce et id candidat
     #[Route('/candidature/new/{annonce}', name: 'app_candidature_new', methods: ['GET', 'POST'])]

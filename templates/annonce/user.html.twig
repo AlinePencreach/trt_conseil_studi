@@ -4,17 +4,17 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-	
-			<h1>Vos Annonces</h1>
-			{% if is_granted ('ROLE_RECRUTEUR') %}
-			
+<div class="container mt-4">
+	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+		<h1>Vos Annonces</h1>
+		{% if is_granted ('ROLE_RECRUTEUR') %}
+
 			{% for message in app.flashes('success') %}
-					<div class="alert alert-success">
-						{{ message }}
-					</div>
-				{% endfor %}
+				<div class="alert alert-success">
+					{{ message }}
+				</div>
+			{% endfor %}
 
 
 			<table class="table">
@@ -23,41 +23,48 @@
 						<th>Title</th>
 						<th>Description</th>
 						<th>Salaire</th>
+						<th>Statut</th>
 						<th>Actions</th>
-						<th>En attente</th>
+						<th>Actions</th>
+		
 
 
 					</tr>
 				</thead>
 				<tbody>
 					{% for annonce in annonces %}
-						
 
-							<tr>
-								{# <tr style="{{ annonce.valide ? 'background-color:green' : 'background-color:red' }}"> #}
-								<td>{{ annonce.title }}</td>
-								<td>{{ annonce.description }}</td>
-								<td>{{ annonce.salaire }}</td>
-								<td
-									class=" d-flex">
-									{# <a class="btn btn-success" href="{{ path('app_annonce_valide', {'id': annonce.id, 'page': app.request.get('page') ? app.request.get('page') : 1}) }}">{{ annonce.valide ? 'invalider' : 'valider' }}</a> #}
-									{% if is_granted ('ROLE_RECRUTEUR') %}
-										<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
-									{% endif %}
+
+						<tr>
+							{# <tr style="{{ annonce.valide ? 'background-color:green' : 'background-color:red' }}"> #}
+							<td>{{ annonce.title }}</td>
+							<td>{{ annonce.description }}</td>
+							<td>{{ annonce.salaire }}</td>
+							<td>{{ annonce.valide ? 'Validé' : 'En attente' }}</td>
+							<td>
+								<a class="btn text-primary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
+							</td>
+							<td>
+								{# <a class="btn btn-success" href="{{ path('app_annonce_valide', {'id': annonce.id, 'page': app.request.get('page') ? app.request.get('page') : 1}) }}">{{ annonce.valide ? 'invalider' : 'valider' }}</a> #}
+								{% if is_granted ('ROLE_RECRUTEUR') and (app.user ==  annonce.auteur) %}
+
+									<a href="{{ path('app_annonce_candidature', {'annonce': annonce.id}) }}">
+										<button class="btn btn-primary">Voir les candidatures</button>
+									</a>
 								</td>
-								<td>{{ annonce.valide ? 'Validé' : 'En attente' }}</td>
-							</tr>
-							{% else %}
-						
-					{% endfor %}
-				</tbody>
-			</tbody>
-		</table>
-		{# display navigation #}
-		<div class="navigation d-flex justify-content-end">
-			{{ knp_pagination_render(annonces) }}
-		</div>
+							</td>
+							
+						</tr>
 
-			{% endif %}
-	{% endif %}
-</div>{% endblock %}
+					{% endif %}
+
+				{% endfor %}
+			</tbody>
+		</tbody>
+	</table>
+	{# display navigation #}
+	<div class="navigation d-flex justify-content-end">
+		{{ knp_pagination_render(annonces) }}
+	</div>
+
+{% endif %}{% endif %}</div>{% endblock %}

@@ -15,7 +15,9 @@ class Annonce1Type extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['label' => 'Titre du poste'])
-            ->add('description', TextType::class, ['label' => 'Déscription du poste'])
+            ->add('description', TextType::class, ['label' => 'Description du poste'])
+            ->add('etablissement', TextType::class, ['label' => 'Etablissement'])
+            ->add('adress', TextType::class, ['label' => 'Adresse'])
             ->add('salaire', TextType::class, ['label' => 'Salaire'])
             ->add('Ajouter', SubmitType::class);;
     }

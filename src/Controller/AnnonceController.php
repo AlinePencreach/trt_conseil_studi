@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Candidature;
 use App\Entity\User;
 
 use App\Form\Annonce1Type;
 use App\Repository\AnnonceRepository;
+use App\Repository\CandidatureRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,10 +22,10 @@ class AnnonceController extends AbstractController
     #[Route('/', name: 'app_annonce_index', methods: ['GET'])]
     public function index(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        
+
         $annonces = $paginator->paginate(
 
-            $annonceRepository->findAll(),
+            $annonceRepository->findAllValide(),
             $request->query->getInt('page', 1), /*page number*/
             10 /*limit per page*/
         );
@@ -32,7 +34,6 @@ class AnnonceController extends AbstractController
             'annonces' => $annonces,
 
         ]);
-
     }
 
     // affiche les annonce du recruteur connecté
@@ -52,14 +53,15 @@ class AnnonceController extends AbstractController
             'annonces' => $annonces,
 
         ]);
-
     }
+
+
 
     //affiche les annonce a valider par les consultants
     #[Route('/consultant', name: 'app_annonce_consultant', methods: ['GET'])]
     public function consultant(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        
+
         $annonces = $paginator->paginate(
 
             $annonceRepository->findAll(),
@@ -71,7 +73,6 @@ class AnnonceController extends AbstractController
             'annonces' => $annonces,
 
         ]);
-
     }
 
 
@@ -82,15 +83,15 @@ class AnnonceController extends AbstractController
         $user = $this->getUser();
         $annonce = new Annonce();
         $annonce->setAuteur($user);
-        
+
         $form = $this->createForm(Annonce1Type::class, $annonce);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $annonceRepository->add($annonce, true);
-            
-            
-           
+
+
+
 
             $this->addFlash(
                 'success',
@@ -103,7 +104,7 @@ class AnnonceController extends AbstractController
         return $this->renderForm('annonce/new.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
-            
+
         ]);
     }
 
@@ -111,17 +112,17 @@ class AnnonceController extends AbstractController
     #[Route('/{id}', name: 'app_annonce_show', methods: ['GET'])]
     public function show(Annonce $annonce): Response
     {
-         //       /** @var User $user */
+        //       /** @var User $user */
         //  $user = $this->getUser();
         //  if ($user = $annonce->getAuteur()) {
         //      # code...
         //      $candidatures = $paginator->paginate(
-                 
+
         //          $repository->findByCandidature($annonce),
         //          $request->query->getInt('page', 1), /*page number*/
         //          7 /*limit per page*/
         //         );
-                
+
         //     }
 
 
@@ -131,8 +132,8 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-  
-//permet modifier une annonce
+
+    //permet modifier une annonce
     #[Route('/{id}/edit', name: 'app_annonce_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Annonce $annonce, AnnonceRepository $annonceRepository): Response
     {
@@ -186,7 +187,4 @@ class AnnonceController extends AbstractController
             'page' => $page,
         ], Response::HTTP_SEE_OTHER);
     }
-
-   
-
 }

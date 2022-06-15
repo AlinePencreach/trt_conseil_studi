@@ -15,11 +15,11 @@
 		{% if is_granted('ROLE_USER') %}
 			<div class="container mt-5 text-center">
 			
-
 				<div>
 					<h1 class="display-4">Bienvenue
 						{{ app.user.name}}
 					</h1>
+
 
 					{# AFFICHE LE ROLE DES MODOS : #}
 					{% if is_granted('ROLE_ADMIN') %}
@@ -39,10 +39,10 @@
 						{# </a> #}
 					{% elseif is_granted('ROLE_RECRUTEUR') %}
 						 <a href="{{ path('app_annonce_new') }}" class="btn btn-primary">Poster une Annonce</a>
-						<a class="btn btn-primary" href="/profil">Voir votre profil</a>
+						
 					{% elseif is_granted ('ROLE_USER')%}
-						<a href="{{ path('app_candidature') }}"
-							 class="btn btn-secondary">Voir vos candidatures
+						<a href="{{ path('app_annonce_index') }}"
+							 class="btn btn-secondary">Les annonces du site ici 
 						</a>
 					{% endif %}
 					<hr class="my-4">

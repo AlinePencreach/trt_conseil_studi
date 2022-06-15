@@ -53,6 +53,22 @@ class AnnonceRepository extends ServiceEntityRepository
        ;
    }
 
+      /**
+    * @return Annonce[] Returns an array of Annonce objects
+    */
+    public function findAllValide(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.valide = :val2')
+            ->setParameter('val2', '1')
+            ->orderBy('a.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+  
+
 //    public function findOneBySomeField($value): ?Annonce
 //    {
 //        return $this->createQueryBuilder('a')
