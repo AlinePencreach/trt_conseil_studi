@@ -48,12 +48,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 2, max: 25)]
     #[Assert\NotBlank()]
     private $name;
-
-
-    private $plainPassword = null;
+    
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $CV;
+
+    #[ORM\Column(type: 'boolean')]
+    private $valide = false;
 
     #[ORM\OneToMany(mappedBy: 'candidat_id', targetEntity: Candidature::class)]
     private $candidatures;
@@ -204,6 +205,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function isValide(): ?bool
+    {
+        return $this->valide;
+    }
+
+    public function setValide(bool $valide): self
+    {
+        $this->valide = $valide;
+
+        return $this;
+    }
+
 
     /**
      * @return Collection<int, Candidature>

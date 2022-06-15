@@ -1,0 +1,7 @@
+{% if (app.user) or (is_granted ('ROLE_CONSULTANT'))%}
+<form method="post" action="{{ path('app_candidature_delete', {'id': candidature.id}) }}" onsubmit="return confirm('Êtes vous sur de vouloir supprimer cette candidature ? Cette action est définitive');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidature.id) }}">
+    <button class="btn btn-danger">Supprimer</button>
+</form>
+{% endif %}
+

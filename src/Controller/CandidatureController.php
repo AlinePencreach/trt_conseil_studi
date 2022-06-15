@@ -16,8 +16,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CandidatureController extends AbstractController
 {
     
+
+//affiche les candidatures du candidat connecté
     #[Route('/candidature/candidat/', name: 'app_candidature')]
-    public function index(AnnonceRepository $annonceRepository, CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    public function indexCandidat(AnnonceRepository $annonceRepository, CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 
         /** @var User $user */
@@ -35,6 +37,7 @@ class CandidatureController extends AbstractController
         ]);
     }
 
+    //affiche les candidature aux annonce du recruteur 
     // #[Route('/candidature/recruteur/', name: 'app_recruteur_candidature')]
     // public function indexrecruteur(Annonce $annonce, CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
     // {
@@ -51,6 +54,7 @@ class CandidatureController extends AbstractController
     //     ]);
     // }
 
+    //permet de postuler a une annonce en recuperant id annonce et id candidat
     #[Route('/candidature/new/{annonce}', name: 'app_candidature_new', methods: ['GET', 'POST'])]
     public function newCandidature(Annonce $annonce, CandidatureRepository $candidatureRepository, ): Response
     {
@@ -96,6 +100,20 @@ class CandidatureController extends AbstractController
     }
 
 
+    //supprime une candidature
+    #[Route('/candidature/{id}', name: 'app_candidature_delete', methods: ['POST'])]
+    public function delete(Request $request, Candidature $candidature, CandidatureRepository $candidatureRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $candidature->getId(), $request->request->get('_token'))) {
+            $candidatureRepository->remove($candidature, true);
+        }
+
+        return $this->redirectToRoute('app_candidature', [
+        ], Response::HTTP_SEE_OTHER);
+    }
+
+
+
     #[Route('/candidature/makeItValide/{page}/{id}', name: 'app_candidature_valide', methods: ['GET', 'POST'])]
     public function makeItValide($page, $id, CandidatureRepository $candidatureRepository): Response
     {
@@ -114,7 +132,7 @@ class CandidatureController extends AbstractController
         );
 
 
-        return $this->redirectToRoute('app_annonce_index', [
+        return $this->redirectToRoute('app_candidature_consultant', [
             'page' => $page,
         ], Response::HTTP_SEE_OTHER);
     }

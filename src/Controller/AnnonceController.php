@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/annonce')]
 class AnnonceController extends AbstractController
 {
+    //Affiche toutes les annonces
     #[Route('/', name: 'app_annonce_index', methods: ['GET'])]
     public function index(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -34,6 +35,7 @@ class AnnonceController extends AbstractController
 
     }
 
+    // affiche les annonce du recruteur connecté
     #[Route('/mes_annonces', name: 'app_annonce_user', methods: ['GET'])]
     public function indexUser(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -53,6 +55,7 @@ class AnnonceController extends AbstractController
 
     }
 
+    //affiche les annonce a valider par les consultants
     #[Route('/consultant', name: 'app_annonce_consultant', methods: ['GET'])]
     public function consultant(AnnonceRepository $annonceRepository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -129,7 +132,7 @@ class AnnonceController extends AbstractController
     }
 
   
-
+//permet modifier une annonce
     #[Route('/{id}/edit', name: 'app_annonce_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Annonce $annonce, AnnonceRepository $annonceRepository): Response
     {
@@ -148,6 +151,8 @@ class AnnonceController extends AbstractController
         ]);
     }
 
+
+    //supprime une annonce
     #[Route('/{id}', name: 'app_annonce_delete', methods: ['POST'])]
     public function delete(Request $request, Annonce $annonce, AnnonceRepository $annonceRepository): Response
     {

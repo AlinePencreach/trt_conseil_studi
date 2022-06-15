@@ -4,16 +4,17 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-
-
-		{% if is_granted('ROLE_USER') %}
-			<div class="container mt-5 text-center">
-				{% for message in app.flashes('success') %}
+	<div class="container ">
+	{% for message in app.flashes('success') %}
 					<div class="alert alert-success mt-5">
 						{{ message }}
 					</div>
 				{% endfor %}
+
+
+		{% if is_granted('ROLE_USER') %}
+			<div class="container mt-5 text-center">
+			
 
 				<div>
 					<h1 class="display-4">Bienvenue
@@ -61,10 +62,10 @@
 				<p class="lead">La plateforme de travail du monde de la restauration. Que vous cherchiez un emploi ou un salarié vous êtes au bon endroit !</p>
 				<hr class="my-4">
 				<p>Inscrivez vous dès maintenant ou
-					<a class="text-decoration-none" href="{{ path('app_security_login') }}">connectez</a>
+					<a class="text-decoration-none mb-5" href="{{ path('app_security_login') }}">connectez</a>
 					vous pour accéder aux fonctionnalités.</p>
-				<a class="btn btn-primary btn-lg" href="{{ path('app_security_registration_candidat') }}" role="button">Inscription en tant que candidat</a>
-				<a class="ms-4 text-decoration-none" href="{{ path('app_security_registration_recruteur') }}">
+				<a class="btn btn-primary mt-2" href="{{ path('app_security_registration_candidat') }}" role="button">Inscription en tant que candidat</a>
+				<a class="ms-4 text-decoration-none mt-2" href="{{ path('app_security_registration_recruteur') }}">
 					S'inscrire en tant que recruteur</a>
 			</div>
 		</div>

@@ -27,24 +27,29 @@
 				</tr>
 				<tr>
 					<th>Valide</th>
-					<td>{{ annonce.valide ? 'Yes' : 'No' }}</td>
+					<td>{{ annonce.valide ? 'Cette annonce est validé (Vous ne pouvez donc plus la modifier)' : 'Cette annonce est en attente de validation' }}</td>
 				</tr>
 			</tbody>
 			{% if is_granted ('ROLE_CONSULTANT') %}
 				<a class="btn btn-primary m-3" href="{{ path('app_annonce_consultant') }}">Revenir aux annonces a valider</a>
 			{% endif %}
-			<a class="btn btn-primary m-3" href="{{ path('app_annonce_index') }}">Revenir aux annonces</a>
+			<a class="btn btn-primary" href="{{ path('app_annonce_index') }}">Revenir aux annonces</a>
 
 		</table>
 
 
 		<div class="d-flex align-items-center">
 
-			{% if (app.user ==  annonce.auteur) or (is_granted ('ROLE_CONSULTANT'))%}
+			{% if (app.user ==  annonce.auteur) and (annonce.valide == 0) or (is_granted ('ROLE_CONSULTANT'))%}
 				<a class="btn btn-secondary m-1" href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">Modifier l'annonce</a>
 				{{ include('annonce/_delete_form.html.twig') }}
 
-			{% elseif is_granted ('ROLE_RECRUTEUR') %}
+				{% elseif (app.user ==  annonce.auteur) or (is_granted ('ROLE_CONSULTANT'))%}
+				{{ include('annonce/_delete_form.html.twig') }}
+				{% endif %}
+					
+
+			{% if is_granted ('ROLE_RECRUTEUR') %}
 
 			{% elseif is_granted ('ROLE_USER') %}
 				<a class="btn btn-secondary m-1" href="{{ path('app_annonce_index') }}">Postuler</a>

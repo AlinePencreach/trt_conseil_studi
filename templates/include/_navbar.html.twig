@@ -13,17 +13,29 @@
 				<li class="nav-item">
 					<a class="nav-link" href="{{ path('app_dashboard', {'role': "USER"})}}">Liste des membres</a>
 				</li>
-			{% endif %}
-
-
-			{% if is_granted('ROLE_USER') %}
-				<div class="d-flex ">
 				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_annonce_index')}}">Liste des annonces</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ path('app_candidature_consultant')}}">Liste des candidatures</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/déconnexion">Déconnexion</a>
+				</li>
+
+
+			{% elseif is_granted('ROLE_USER') %}
+				<div class="d-flex ">
+					<li class="nav-item">
 						<a class="nav-link" href="/annonce">Annonces</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="/profil">Profil</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('app_candidature') }}">Vos candidatures</a>
+					</li>
+
 					<li class="nav-item">
 						<a class="nav-link" href="/déconnexion">Déconnexion</a>
 					</li>

@@ -23,8 +23,8 @@ class ProfilController extends AbstractController
         ]);
     }
 
-   
-    
+
+
     #[Route('/edition/{id}', name: 'app_profil_edit', methods: ['GET', 'POST'])]
     /**
      * Edite the profil off the user connected
@@ -36,9 +36,9 @@ class ProfilController extends AbstractController
      */
     public function edit(User $user, Request $request, EntityManagerInterface $manager): Response
     {
-        
+
         $form = $this->createForm(UserType::class, $user);
-        
+
 
         $form->handleRequest(($request));
         if (!$this->getUser()) {
@@ -49,25 +49,22 @@ class ProfilController extends AbstractController
             return $this->redirectToRoute('app_security_logout');
         }
 
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-           $user = $form->getData();
-           $manager->persist($user);
-           $manager->flush();
+            $user = $form->getData();
+            $manager->persist($user);
+            $manager->flush();
 
-           $this->addFlash(
-               'success',
-               'Votre profil a bien été mis à jour. '
-           );
+            $this->addFlash(
+                'success',
+                'Votre profil a bien été mis à jour. '
+            );
 
-           return $this->redirectToRoute('app_profil');
-           
+            return $this->redirectToRoute('app_profil');
         }
 
         return $this->renderForm('profil/edit.html.twig', [
             'user' => $user,
         ]);
     }
-
-   
 }
