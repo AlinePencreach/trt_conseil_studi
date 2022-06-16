@@ -67,13 +67,16 @@ class CandidatureRepository extends ServiceEntityRepository
         ;
     }
 
-//    public function findOneBySomeField($value): ?Candidature
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+
+   public function findOneByUserAndAnnonce($user, $annonce): ?Candidature
+   {
+       return $this->createQueryBuilder('c')
+           ->andWhere('c.candidat_id = :val')
+           ->andWhere('c.annonce_id = :val2')
+           ->setParameter('val', $user)
+           ->setParameter('val2', $annonce)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
 }

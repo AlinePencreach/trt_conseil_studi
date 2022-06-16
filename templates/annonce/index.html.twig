@@ -6,24 +6,28 @@
 {% block body %}
 	<div class="container">
 		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-	
+
 			<h1>Annonces</h1>
 			{% if is_granted('ROLE_CONSULTANT') %}
-					<a href="{{ path('app_annonce_consultant') }}">
-							<p class="btn btn-secondary">Voir les annonces à valider</p>
-						</a>
-			{% elseif is_granted ('ROLE_RECRUTEUR') %} 
-			<a href="{{ path('app_annonce_new') }}"><button class="btn btn-primary">Poster une nouvelle annonce</button></a>
-			<a href="{{ path('app_annonce_user', {'user': app.user.id}) }}"><button class="btn btn-primary">Voir vos annonces</button></a>
-			{# <a href="{{ path('app_recruteur_candidature', {'annonce': })}}"><button class="btn btn-primary">Voir les candidatures à vos annonces</button></a> #}
+				<a href="{{ path('app_annonce_consultant') }}">
+					<p class="btn btn-secondary">Voir les annonces à valider</p>
+				</a>
+			{% elseif is_granted ('ROLE_RECRUTEUR') %}
+				<a href="{{ path('app_annonce_new') }}">
+					<button class="btn btn-primary">Poster une nouvelle annonce</button>
+				</a>
+				<a href="{{ path('app_annonce_user', {'user': app.user.id}) }}">
+					<button class="btn btn-primary">Voir vos annonces</button>
+				</a>
+				{# <a href="{{ path('app_recruteur_candidature', {'annonce': })}}"><button class="btn btn-primary">Voir les candidatures à vos annonces</button></a> #}
 
 			{% endif %}
-			
+
 			{% for message in app.flashes('success') %}
-					<div class="alert alert-success">
-						{{ message }}
-					</div>
-				{% endfor %}
+				<div class="alert alert-success">
+					{{ message }}
+				</div>
+			{% endfor %}
 
 
 			<table class="table">
@@ -51,7 +55,17 @@
 									{% if is_granted ('ROLE_RECRUTEUR') %}
 										<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
 									{% elseif is_granted ('ROLE_USER') %}
-										<a class="btn text-primary" href="{{ path('app_candidature_new', {'annonce': annonce.id}) }}">Postuler</a>
+										{% set dejaPostule = false %}
+										{% for candidature in annonce.candidatures %}
+											{% if candidature.getCandidatId() == app.user %}
+												{% set dejaPostule = true %}
+											{% endif %}
+										{% endfor %}
+										{% if dejaPostule == true %}
+											<a class="btn text-primary text-decoration-none" href="#">Postulé</a>
+										{% else %}
+											<a class="btn text-primary" href="{{ path('app_candidature_new', {'annonce': annonce.id}) }}">Postuler</a>
+										{% endif %}
 										<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
 									{% endif %}
 								</td>

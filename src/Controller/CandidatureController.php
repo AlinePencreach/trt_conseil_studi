@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Annonce;
 use App\Entity\Candidature;
+use Symfony\Component\Mime\Email;
 use App\Repository\AnnonceRepository;
 use App\Repository\CandidatureRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -74,13 +76,32 @@ class CandidatureController extends AbstractController
 
     //permet de postuler a une annonce en recuperant id annonce et id candidat
     #[Route('/candidature/new/{annonce}', name: 'app_candidature_new', methods: ['GET', 'POST'])]
-    public function newCandidature(Annonce $annonce, CandidatureRepository $candidatureRepository, ): Response
+    public function newCandidature(Annonce $annonce, CandidatureRepository $candidatureRepository, MailerInterface $mailer): Response
     {
+        
          /** @var User $user */
          $user = $this->getUser();
+        //Verifier que le candidat n'a pas déjà postuler donc la fiche condidature n'existe pas encore.
+        $candidatureDone = $candidatureRepository->findOneByUserAndAnnonce($user, $annonce);
+        if ($candidatureDone) {
+            return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+
+
          $candidature = new Candidature();
          $candidature->setCandidatId($user)
                     ->setAnnonceId($annonce);
+                
+
+                    $email = (new Email())
+                    ->from($user->getEmail())
+                    ->to($annonce->getAuteur()->getEmail())
+                    ->subject('Vous avez recu une nouvelle candidature')
+                    ->text('Connectez vous et rendez vous sur vos annonces pour voir vos nouvelles candidatures')
+                    ->html('<p>See Twig integration for better HTML integration!</p>');
+        
+                $mailer->send($email);
 
     
        {
@@ -91,9 +112,7 @@ class CandidatureController extends AbstractController
                 'Votre candidature à bien été prise en compte. Un consultant doit maintenant la valider'
             );
 
-            return $this->redirectToRoute('app_annonce_index', [
-             
-            ], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
         }
     }
 
@@ -154,6 +173,11 @@ class CandidatureController extends AbstractController
             'page' => $page,
         ], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+
 
 
 
