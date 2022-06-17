@@ -10,6 +10,7 @@
 
 <div class="container w-50 m-4">
 		<h1 class="display-5">Formulaire de modification</h1>
+            {% if is_granted('ROLE_RECRUTEUR') %}
 		<form class="mt-4" action="{{ path('app_profil_edit', {id: user.id})}}" method="POST">
 			<div class="mb-3">
 				<label for="name" class="form-label">Nom / Prénom</label>
@@ -23,7 +24,6 @@
 				<label for="password" class="form-label">Mot de passe</label>
 				<input type="password" class="form-control" id="password" name="_password">
 			</div>
-            {% if is_granted('ROLE_RECRUTEUR') %}
             <div class="mb-3">
 				<label for="etablissement" class="form-label">Etablissement</label>
 				<input type="etablissement" class="form-control" id="etablissement" name="etablissement">
@@ -32,19 +32,12 @@
 				<label for="adress" class="form-label">Adresse</label>
 				<input type="adress" class="form-control" id="adress" name="adress">
 			</div>
+			<button type="submit" class="btn btn-primary">Modifier</button>
             {% else %}
-            <div class="mb-3">
-				<label for="metier" class="form-label">Métier</label>
-				<input type="metier" class="form-control" id="metier" name="metier">
-			</div>
-            <div class="mb-3">
-				<label for="CV" class="form-label">Votre CV</label>
-				<input type="CV" class="form-control" id="CV" name="CV">
-			</div>
+            {{ form(form) }}
             {% endif %}
 
 
-			<button type="submit" class="btn btn-primary">Modifier</button>
 		</form>
 	
 

@@ -4,34 +4,38 @@
 
 {% block body %}
 
-<h1>
-	Voici les candidat pour l'annonce
-	{{annonce.title}}
-	:
-</h1>
+	<h1>
+		Voici les candidats pour l'annonce
+		{{annonce.title}}
+		:
+	</h1>
 
 
-	<table class="table">
+	<table class="m-5 w-25">
 		<thead>
 			<tr>
 				<th>Nom</th>
 				<th>CV</th>
-				<th>Actions</th>
+				
 
 			</tr>
 		</thead>
 		<tbody>
-			
-{% for candidature in candidatures %}
 
-					<tr>
-						<td>{{ candidature.getCandidatId().name }}</td>
-						<td>{{ candidature.getCandidatId().CV }}</td>
-						<td></td>
-	
-					</tr>
-					{% else %}
-                    "pas encore de candidat pour cette annonce."
+			{% for candidature in candidatures %}
+
+				<tr>
+					<td>{{ candidature.getCandidatId().name }}</td>
+					
+					<td>
+						<a href="{{ candidature.getCandidatId().getCV() }}">
+						<button class="btn btn-primary">Télécharger le CV</button>
+						</a>
+					</td>
+
+				</tr>
+			{% else %}
+				"pas encore de candidat pour cette annonce."
 			{% endfor %}
 		</tbody>
 	</tbody>

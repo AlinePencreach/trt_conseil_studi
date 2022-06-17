@@ -4,13 +4,15 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationUserType extends AbstractType
 {
@@ -21,7 +23,7 @@ class RegistrationUserType extends AbstractType
             ->add('email', EmailType::class, ['label' => 'Adresse email'])
             ->add('password', PasswordType::class, ['label' => 'Mot de passe'])
             ->add('metier', TextType::class)
-            ->add('CV', TextType::class, ['label' => 'CV'])
+            ->add('CV', FileType::class, ['label' => 'CV'])
             ->add('submit', SubmitType::class, ['label' => 'Envoyer'])
         ;
     }

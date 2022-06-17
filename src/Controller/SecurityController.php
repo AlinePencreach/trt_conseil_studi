@@ -16,6 +16,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
+
+
 
 class SecurityController extends AbstractController
 {
@@ -58,7 +64,7 @@ class SecurityController extends AbstractController
      * @param UserPasswordHasherInterface $passwordHasher
      * @return Response
      */
-    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $passwordHasher): Response
+    public function registration(SluggerInterface $slugger, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationUserType::class, $user);
@@ -72,6 +78,7 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
+            
             $user = $form->getData();
             $user->setPassword(
                 $passwordHasher->hashPassword(
@@ -79,7 +86,8 @@ class SecurityController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
-            // ... perform some action, such as saving the task to the database
+
+
             $manager->persist($user);
             $manager->flush();
 
@@ -87,6 +95,31 @@ class SecurityController extends AbstractController
                 'success',
                 'Vous avez bien été enregisté. Un consultant doit tout fois valider votre inscription avant que vous puissez vous connectez.'
             );
+
+            /** @var UploadedFile $CVFile */
+            $CVFile = $form->get('CV')->getData();
+
+            if ($CVFile) {
+                $originalFilename = pathinfo($CVFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$CVFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $CVFile->move(
+                        $this->getParameter('cv_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $user->setCV($newFilename);
+            // ... perform some action, such as saving the task to the database
+            };
 
             return $this->redirectToRoute('app_home');
         }

@@ -62,9 +62,9 @@
 											{% endif %}
 										{% endfor %}
 										{% if dejaPostule == true %}
-											<a class="btn text-primary text-decoration-none" href="#">Postulé</a>
+											<p class="text-secondary">Postulé</p>
 										{% else %}
-											<a class="btn text-primary" href="{{ path('app_candidature_new', {'annonce': annonce.id}) }}">Postuler</a>
+											<a class="text-primary text-decoration-none" href="{{ path('app_candidature_new', {'annonce': annonce.id}) }}">Postuler</a>
 										{% endif %}
 										<a class="btn text-secondary" href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Plus de détails</a>
 									{% endif %}

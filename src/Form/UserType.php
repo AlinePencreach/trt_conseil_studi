@@ -8,6 +8,9 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UserType extends AbstractType
@@ -17,10 +20,20 @@ class UserType extends AbstractType
 
         $builder
             ->add('name', TextType::class, ['label' => 'Nom/Prénom'])
-            ->add('etablissement', TextType::class)
             ->add('metier', TextType::class)
-            ->add('CV', TextType::class, ['label' => 'Votre CV'])
-            ->add('submit', SubmitType::class, ['label' => 'Envoyer']
+            ->add('CV', FileType::class, [
+                'label' => 'CV',
+                
+
+            // // make it optional so you don't have to re-upload the PDF file
+            // // every time you edit the Product details
+                
+
+            // // unmapped fields can't define their validation using annotations
+            // // in the associated entity, so you can use the PHP constraint classes
+              
+            ])
+            ->add('submit', SubmitType::class, ['label' => 'Modifier']
             );
 
     }

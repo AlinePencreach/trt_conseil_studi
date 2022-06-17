@@ -88,7 +88,6 @@ class CandidatureController extends AbstractController
         }
 
 
-
          $candidature = new Candidature();
          $candidature->setCandidatId($user)
                     ->setAnnonceId($annonce);
