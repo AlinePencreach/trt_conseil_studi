@@ -17,9 +17,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CandidatureController extends AbstractController
 {
-    
 
-//affiche les candidatures du candidat connecté
+
+    //affiche les candidatures du candidat connecté
     #[Route('/candidature/candidat/', name: 'app_candidature')]
     public function indexCandidat(AnnonceRepository $annonceRepository, CandidatureRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -39,48 +39,49 @@ class CandidatureController extends AbstractController
         ]);
     }
 
-    // //affiche les candidature aux annonces du recruteur 
-    // #[Route('/candidature/recruteur/', name: 'app_candidature_recruteur')]
-    // public function indexrecruteur(): Response
-    // {
+
+    //affiche les candidatures aux annonces du recruteur 
+    #[Route('/candidatures/annonce/{annonce}', name: 'app_annonce_candidature')]
+    public function indexUserAnnonce( Annonce $annonce, PaginatorInterface $paginator, CandidatureRepository $repository, Request $request): Response
+    {
+
+        $candidatures = $paginator->paginate(
+
+            $repository->findValideByAnnonce($annonce),
+            $request->query->getInt('page', 1), /*page number*/
+            7 /*limit per page*/
+        );
+
+        // $path = $this->getParameter('cv_directory') . $CVFile->getClientOriginalName();
         
-    //     // $candidatures = $paginator->paginate(
+        return $this->render('annonce/candidature.html.twig', [
+            'candidatures' => $candidatures,
+            'annonce' => $annonce,
+            // 'path' => $path,
+        ]);
+    }
 
-    //     //     $repository->findByAnnonce($annonce),
-    //     //     $request->query->getInt('page', 1), /*page number*/
-    //     //     7 /*limit per page*/
-    //     // );
+    // // affiche le cv
+    // #[Route('/candidatures/annonce/{cv}', name: 'app_annonce_candidature_cv')]
+    // public function indexUserCv($cv, Annonce $annonce): Response
+    // {
+      
+    //          $path = $this->getParameter('cv_directory') . $cv->getCV();
 
-    //     return $this->render('candidature/recruteur.html.twig', [
-            
+
+    //     return $this->render('annonce/candidature_cv.html.twig', [
+    //         'path' => $path,
+    //         'annonce' => $annonce,
     //     ]);
     // }
-
-        //affiche les candidature aux annonces du recruteur 
-        #[Route('/candidatures/annonce/{annonce}', name: 'app_annonce_candidature')]
-        public function indexUserAnnonce(Annonce $annonce, PaginatorInterface $paginator, CandidatureRepository $repository, Request $request): Response
-        {
-    
-            $candidatures = $paginator->paginate(
-    
-                $repository->findValideByAnnonce($annonce),
-                $request->query->getInt('page', 1), /*page number*/
-                7 /*limit per page*/
-            );
-    
-            return $this->render('annonce/candidature.html.twig', [
-                'candidatures' => $candidatures, 
-               'annonce' => $annonce,
-            ]);
-        }
 
     //permet de postuler a une annonce en recuperant id annonce et id candidat
     #[Route('/candidature/new/{annonce}', name: 'app_candidature_new', methods: ['GET', 'POST'])]
     public function newCandidature(Annonce $annonce, CandidatureRepository $candidatureRepository, MailerInterface $mailer): Response
     {
-        
-         /** @var User $user */
-         $user = $this->getUser();
+
+        /** @var User $user */
+        $user = $this->getUser();
         //Verifier que le candidat n'a pas déjà postuler donc la fiche condidature n'existe pas encore.
         $candidatureDone = $candidatureRepository->findOneByUserAndAnnonce($user, $annonce);
         if ($candidatureDone) {
@@ -88,24 +89,21 @@ class CandidatureController extends AbstractController
         }
 
 
-         $candidature = new Candidature();
-         $candidature->setCandidatId($user)
-                    ->setAnnonceId($annonce);
-                
+        $candidature = new Candidature();
+        $candidature->setCandidatId($user)
+            ->setAnnonceId($annonce);
 
-                    $email = (new Email())
-                    ->from($user->getEmail())
-                    ->to($annonce->getAuteur()->getEmail())
-                    ->subject('Vous avez recu une nouvelle candidature')
-                    ->text('Connectez vous et rendez vous sur vos annonces pour voir vos nouvelles candidatures')
-                    ->html('<p>See Twig integration for better HTML integration!</p>');
-        
-                $mailer->send($email);
 
-    
-       {
+        $email = (new Email())
+            ->from($user->getEmail())
+            ->to($annonce->getAuteur()->getEmail())
+            ->subject('Vous avez recu une nouvelle candidature')
+            ->text('Connectez vous et rendez vous sur vos annonces pour voir vos nouvelles candidatures')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+
+        $mailer->send($email); {
             $candidatureRepository->add($candidature, true);
-            
+
             $this->addFlash(
                 'success',
                 'Votre candidature à bien été prise en compte. Un consultant doit maintenant la valider'
@@ -119,7 +117,7 @@ class CandidatureController extends AbstractController
     #[Route('/candidature/consultant', name: 'app_candidature_consultant', methods: ['GET'])]
     public function candidatureConsultant(CandidatureRepository $candidatureRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        
+
         $candidatures = $paginator->paginate(
 
             $candidatureRepository->findAll(),
@@ -129,10 +127,9 @@ class CandidatureController extends AbstractController
 
         return $this->render('candidature/consultant.html.twig', [
             'candidatures' => $candidatures,
-            
+
 
         ]);
-
     }
 
 
@@ -144,8 +141,7 @@ class CandidatureController extends AbstractController
             $candidatureRepository->remove($candidature, true);
         }
 
-        return $this->redirectToRoute('app_candidature', [
-        ], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_candidature', [], Response::HTTP_SEE_OTHER);
     }
 
 
@@ -172,12 +168,4 @@ class CandidatureController extends AbstractController
             'page' => $page,
         ], Response::HTTP_SEE_OTHER);
     }
-
-
-
-
-
-
-
-
 }

@@ -16,7 +16,7 @@
 			<tr>
 				<th>Nom</th>
 				<th>CV</th>
-				
+
 
 			</tr>
 		</thead>
@@ -24,18 +24,19 @@
 
 			{% for candidature in candidatures %}
 
+			
 				<tr>
 					<td>{{ candidature.getCandidatId().name }}</td>
-					
+
 					<td>
-						<a href="{{ candidature.getCandidatId().getCV() }}">
-						<button class="btn btn-primary">Télécharger le CV</button>
+						<a href="{{ candidature.getCandidatId().CV}}">
+							<button class="btn btn-primary">telecharger le CV</button>
 						</a>
 					</td>
 
 				</tr>
 			{% else %}
-				"pas encore de candidat pour cette annonce."
+				<p class="display-5">Il n'y a pas encore d'annonce pour cette annonce</p>
 			{% endfor %}
 		</tbody>
 	</tbody>

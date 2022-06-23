@@ -109,7 +109,7 @@ class SecurityController extends AbstractController
                 try {
                     $CVFile->move(
                         $this->getParameter('cv_directory'),
-                        $newFilename
+                        $newFilename, 0777
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload

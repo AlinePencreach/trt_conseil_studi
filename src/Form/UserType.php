@@ -23,6 +23,7 @@ class UserType extends AbstractType
             ->add('metier', TextType::class)
             ->add('CV', FileType::class, [
                 'label' => 'CV',
+                'mapped' => false,
                 
 
             // // make it optional so you don't have to re-upload the PDF file
