@@ -23,7 +23,7 @@ class RegistrationUserType extends AbstractType
             ->add('email', EmailType::class, ['label' => 'Adresse email'])
             ->add('password', PasswordType::class, ['label' => 'Mot de passe'])
             ->add('metier', TextType::class)
-            ->add('CV', FileType::class, ['label' => 'CV'])
+            ->add('CV', FileType::class, ['label' => 'CV', 'mapped' => false, 'required' => false])
             ->add('submit', SubmitType::class, ['label' => 'Envoyer'])
         ;
     }

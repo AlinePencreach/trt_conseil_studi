@@ -29,7 +29,12 @@
 					<td>{{ candidature.getCandidatId().name }}</td>
 
 					<td>
-						<a href="{{ candidature.getCandidatId().CV}}">
+					{# /public/uploads/cv #}
+					
+						{# <a href="{{ asset('uploads/' ~ candidature.CVFiles) }}">View brochure (PDF)</a> #}
+
+
+						<a href="{{ asset('uploads/' ~ user.setCV)}}">
 							<button class="btn btn-primary">telecharger le CV</button>
 						</a>
 					</td>

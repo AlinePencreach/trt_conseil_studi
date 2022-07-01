@@ -21,7 +21,7 @@ class RegistrationRecruteurType extends AbstractType
             ->add('email', EmailType::class, ['label' => 'Adresse email'])
             ->add('password', PasswordType::class, ['label' => 'Mot de passe'])
             ->add('etablissement', TextType::class, ['label' => 'Etablissement'])
-            ->add('adress', TextType::class, ['label' => 'Adress'])
+            ->add('address', TextType::class, ['label' => 'Adress'])
             ->add('submit', SubmitType::class, ['label' => 'Envoyer'])
         ;
     }

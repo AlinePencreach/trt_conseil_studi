@@ -41,6 +41,7 @@ class ProfilController extends AbstractController
     {
 
         $form = $this->createForm(UserType::class, $user);
+        
 
 
         $form->handleRequest(($request));
@@ -65,6 +66,7 @@ class ProfilController extends AbstractController
 
               /** @var UploadedFile $CVFile */
               $CVFile = $form->get('CV')->getData();
+              
 
               if ($CVFile) {
                   $originalFilename = pathinfo($CVFile->getClientOriginalName(), PATHINFO_FILENAME);

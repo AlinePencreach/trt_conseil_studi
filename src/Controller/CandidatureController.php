@@ -42,7 +42,7 @@ class CandidatureController extends AbstractController
 
     //affiche les candidatures aux annonces du recruteur 
     #[Route('/candidatures/annonce/{annonce}', name: 'app_annonce_candidature')]
-    public function indexUserAnnonce( Annonce $annonce, PaginatorInterface $paginator, CandidatureRepository $repository, Request $request): Response
+    public function indexUserAnnonce(Annonce $annonce, PaginatorInterface $paginator, CandidatureRepository $repository, Request $request): Response
     {
 
         $candidatures = $paginator->paginate(
@@ -52,7 +52,9 @@ class CandidatureController extends AbstractController
             7 /*limit per page*/
         );
 
-        // $path = $this->getParameter('cv_directory') . $CVFile->getClientOriginalName();
+        
+
+        // $path = $this->getParameter('cv_directory');
         
         return $this->render('annonce/candidature.html.twig', [
             'candidatures' => $candidatures,
